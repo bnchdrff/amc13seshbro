@@ -49,15 +49,15 @@ $(function() {
 			return appTemplate();
 		},
 		render : function(vocabModel, backboneUserCollection)
-		{	
+		{
 			$(this.el).html(this.template());
 			return this;
 		}
 	});
 
 	$(document).ready(function() {
-	    var app = new AppView();
-	    $("#app").html(app.render().el);
+		var app = new AppView();
+		$("#app").html(app.render().el);
 	});
 });
 
