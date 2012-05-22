@@ -23,7 +23,7 @@
     <h3>tracks, network gatherings, and practice spaces</h3>
     <ul>
       <% _.each(tracks, function(track) { %>
-        <li><%= track.tid %>: <%= track.name %></li>
+        <li><%= track.tid %>: <%= track.name %>: <input type="checkbox" class="track_selection" value="<%= track.tid %>"/></li>
       <% }) %>
     </ul>
   </div>

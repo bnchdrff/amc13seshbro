@@ -61,10 +61,24 @@ Seshbro.Views.Sessions = Backbone.View.extend({
   render : function() {
     $( "#seshes" ).html( this.template( { seshes : this.collection.toJSON() } ) );
     return this;
+  },
+  filter : function(tid){
+    //this is going to filter based on click and re-render stuff.
+    var filteredColl = _.filter(this.collection.models, function(session){
+        return session.get("taxonomy").hasOwnProperty(tid.toString()) === true;
+    });
+    this.render_filter(filteredColl);
+  },
+  render_filter : function(collection){
+    collection = new Seshbro.Collections.Sessions(collection);
+    $( "#seshes" ).html( this.template( { seshes : collection.toJSON() } ) );
   }
 });
 
 Seshbro.Views.SessionBrowser = Backbone.View.extend({
+  events : {
+    "click .track_selection" : "select_track"
+  },
   initialize : function() {
     this.categoriesView = new Seshbro.Views.Categories();
     this.sessionsView = new Seshbro.Views.Sessions();
@@ -76,6 +90,11 @@ Seshbro.Views.SessionBrowser = Backbone.View.extend({
   render : function( categoryModel, sessionsCollection ) {
     $( this.el ).html( this.template() );
     return this;
+  },
+  select_track : function(e){
+    //$(e.currentTarget).val() grabs the current value of the checkbox being clicked. I made the value the
+    //TID of the model.
+    this.sessionsView.filter($(e.currentTarget).val());
   }
 });
 
