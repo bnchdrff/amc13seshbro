@@ -65,11 +65,14 @@ Seshbro.Views.Sessions = Backbone.View.extend({
   filter : function(tid){
     //this is going to filter based on click and re-render stuff.
     var filteredColl = _.filter(this.collection.models, function(session){
+        //replace this filtering logic here. 
         return session.get("taxonomy").hasOwnProperty(tid.toString()) === true;
     });
     this.render_filter(filteredColl);
   },
   render_filter : function(collection){
+    //This will re-render the view based on the collection given to it.
+    //This should update the lower session view based on what is clicked so it's stateless right now.
     collection = new Seshbro.Collections.Sessions(collection);
     $( "#seshes" ).html( this.template( { seshes : collection.toJSON() } ) );
   }

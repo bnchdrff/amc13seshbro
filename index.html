@@ -11,13 +11,13 @@
     <h3>exp_levels</h3>
     <ul>
       <% _.each(exp_levels, function(term) { %>
-        <li><%= term.tid %>: <%= term.name %></li>
+        <li><%= term.tid %>: <%= term.name %>: <input type="checkbox" class="track_selection" value="<%= term.tid %>"/></li>
       <% }) %>
     </ul>
     <h3>kid_friendliness</h3>
     <ul>
       <% _.each(kid_friendliness, function(term) { %>
-        <li><%= term.tid %>: <%= term.name %></li>
+        <li><%= term.tid %>: <%= term.name %>: <input type="checkbox" class="track_selection" value="<%= term.tid %>"/></li>
       <% }) %>
     </ul>
     <h3>tracks, network gatherings, and practice spaces</h3>
