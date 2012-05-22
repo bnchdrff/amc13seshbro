@@ -25,6 +25,10 @@ Seshbro.Models.Session = Backbone.RelationalModel.extend({
 Seshbro.Collections.Sessions = Backbone.Collection.extend({
   url : function( models ) {
     if ( models ) {
+      // XXX: this doesn't work because Drupal Services can only serve one
+      // node at a time. wtf. anyways, there isn't really a case where we'd
+      // load a partial set, since we're downloading the whole blob of
+      // sessions at once.
       return "http://dev.talk070512.phy3.thermitic.net/backbone/rest/node/" + _.pluck( models, id ) + ".jsonp?callback=?";
     } else {
       return "http://dev.talk070512.phy3.thermitic.net/backbone/rest/views/2012sesh_backbone_user.jsonp?callback=?";
@@ -41,8 +45,7 @@ Seshbro.Views.Categories = Backbone.View.extend({
   },
   template : _.template( $( "#seshbro-tpl-categories" ).html() ),
   render : function() {
-    console.log( this.model.toJSON()[0] );
-    $( "#categories" ).html( this.template( this.model.toJSON()[0] ) );
+    $( "#categories" ).html( this.template( this.model.toJSON() ) );
     return this;
   }
 });
@@ -54,8 +57,9 @@ Seshbro.Views.Sessions = Backbone.View.extend({
     this.collection.on( "reset", this.render );
     this.collection.fetch();
   },
+  template : _.template( $( "#seshbro-tpl-seshes" ).html() ),
   render : function() {
-    $( "#sessions" ).html( JSON.stringify( this.collection ) );
+    $( "#seshes" ).html( this.template( { seshes : this.collection.toJSON() } ) );
     return this;
   }
 });
@@ -66,7 +70,7 @@ Seshbro.Views.SessionBrowser = Backbone.View.extend({
     this.sessionsView = new Seshbro.Views.Sessions();
   },
   template : function() {
-    var appTemplate = _.template( "<div id='categories'></div><br/><br/><div id='sessions'></div>" );
+    var appTemplate = _.template( "<div id='categories'></div><br/><br/><div id='seshes'></div>" );
     return appTemplate();
   },
   render : function( categoryModel, sessionsCollection ) {

@@ -6,26 +6,42 @@
 <script type="text/javascript" src="lib/backbone.js"></script>
 <script type="text/javascript" src="lib/backbone-relational.js"></script>
 <script type="text/html" id="seshbro-tpl-categories">
- <div class="categories">
-    <h2>Categories</h2>
+  <h2>Categories</h2>
+  <div class="categories">
     <h3>exp_levels</h3>
     <ul>
       <% _.each(exp_levels, function(term) { %>
-      <li><%= term.tid %>: <%= term.name %></li>
+        <li><%= term.tid %>: <%= term.name %></li>
       <% }) %>
     </ul>
     <h3>kid_friendliness</h3>
     <ul>
       <% _.each(kid_friendliness, function(term) { %>
-      <li><%= term.tid %>: <%= term.name %></li>
+        <li><%= term.tid %>: <%= term.name %></li>
+      <% }) %>
+    </ul>
+    <h3>tracks, network gatherings, and practice spaces</h3>
+    <ul>
+      <% _.each(tracks, function(track) { %>
+        <li><%= track.tid %>: <%= track.name %></li>
       <% }) %>
     </ul>
   </div>
 </script>
+<script type="text/html" id="seshbro-tpl-seshes">
+  <h2>Sessions</h2>
+  <ul class="seshes">
+    <% _.each(seshes, function(sesh) { %>
+      <li class="session">
+        <h3><%= sesh.title %></h3>
+      </li>
+    <% }); %>
+  </ul>
+</script>
 <script type="text/javascript" src="amc12seshbrowser.js"></script>
 </head>
 <body>
-	<div id="app">
-	</div>
+  <div id="app">
+  </div>
 </body>
 </html>
