@@ -4,6 +4,24 @@
 <script type="text/javascript" src="lib/json2.js"></script>
 <script type="text/javascript" src="lib/underscore.js"></script>
 <script type="text/javascript" src="lib/backbone.js"></script>
+<script type="text/javascript" src="lib/backbone-relational.js"></script>
+<script type="text/html" id="seshbro-tpl-categories">
+ <div class="categories">
+    <h2>Categories</h2>
+    <h3>exp_levels</h3>
+    <ul>
+      <% _.each(exp_levels, function(term) { %>
+      <li><%= term.tid %>: <%= term.name %></li>
+      <% }) %>
+    </ul>
+    <h3>kid_friendliness</h3>
+    <ul>
+      <% _.each(kid_friendliness, function(term) { %>
+      <li><%= term.tid %>: <%= term.name %></li>
+      <% }) %>
+    </ul>
+  </div>
+</script>
 <script type="text/javascript" src="amc12seshbrowser.js"></script>
 </head>
 <body>
