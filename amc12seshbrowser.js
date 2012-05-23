@@ -22,6 +22,8 @@ Seshbro.Models.Session = Backbone.RelationalModel.extend({
   ]
 });
 
+Seshbro.Models.TaxonomyId = Backbone.Model.extend({});
+
 Seshbro.Collections.Sessions = Backbone.Collection.extend({
   url : function( models ) {
     if ( models ) {
@@ -35,6 +37,8 @@ Seshbro.Collections.Sessions = Backbone.Collection.extend({
     }
   }
 });
+
+Seshbro.Collections.Filters = Backbone.Collection.extend({});
 
 Seshbro.Views.Categories = Backbone.View.extend({
   initialize : function() {
@@ -62,12 +66,17 @@ Seshbro.Views.Sessions = Backbone.View.extend({
     $( "#seshes" ).html( this.template( { seshes : this.collection.toJSON() } ) );
     return this;
   },
-  filter : function(tid){
+  filter : function(tidCollection){
     //this is going to filter based on click and re-render stuff.
-    var filteredColl = _.filter(this.collection.models, function(session){
-        //replace this filtering logic here. 
-        return session.get("taxonomy").hasOwnProperty(tid.toString()) === true;
-    });
+    var filteredColl = _.reduce(tidCollection, function(memo, tid)
+      {
+        var filtered = _.filter(memo, function(session){ 
+          //replace this filtering logic here. 
+          return session.get("taxonomy").hasOwnProperty(tid.get("tid")) === true;
+        });
+        return filtered;
+      }, this.collection.models);
+    console.log(filteredColl);
     this.render_filter(filteredColl);
   },
   render_filter : function(collection){
@@ -85,6 +94,7 @@ Seshbro.Views.SessionBrowser = Backbone.View.extend({
   initialize : function() {
     this.categoriesView = new Seshbro.Views.Categories();
     this.sessionsView = new Seshbro.Views.Sessions();
+    this.filterCriteria = new Seshbro.Collections.Filters();
   },
   template : function() {
     var appTemplate = _.template( "<div id='categories'></div><br/><br/><div id='seshes'></div>" );
@@ -97,7 +107,16 @@ Seshbro.Views.SessionBrowser = Backbone.View.extend({
   select_track : function(e){
     //$(e.currentTarget).val() grabs the current value of the checkbox being clicked. I made the value the
     //TID of the model.
-    this.sessionsView.filter($(e.currentTarget).val());
+    var singleFilter = $(e.currentTarget).val();
+    var removableFilter = this.filterCriteria.where({tid:singleFilter.toString()});
+    if(removableFilter.length === 0){
+      this.filterCriteria.add(new Seshbro.Models.TaxonomyId({tid:singleFilter}));
+    } 
+    else{
+      this.filterCriteria.remove(removableFilter[0]);
+    }
+    //console.log(this.filterCriteria.models);
+    this.sessionsView.filter(this.filterCriteria.models);
   }
 });
 
