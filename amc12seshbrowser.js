@@ -6,6 +6,15 @@ window.Seshbro = {
   Views: {}
 };
 
+Seshbro.Router = Backbone.Router.extend({
+  initialize : function() {
+    this.route(/^tids\[(.*?)\]$/, "tidize");
+  },
+  tidize : function(tids) {
+    tids = tids.split(',');
+  }
+});
+
 Seshbro.Models.Category = Backbone.RelationalModel.extend({
   url : "http://dev.talk070512.phy3.thermitic.net/amc2012/sessions/taxonomy-js?callback=?"
 });
@@ -95,11 +104,20 @@ Seshbro.Views.SessionBrowser = Backbone.View.extend({
     this.categoriesView = new Seshbro.Views.Categories();
     this.sessionsView = new Seshbro.Views.Sessions();
     this.filterCriteria = new Seshbro.Collections.Filters();
+    this.router = new Seshbro.Router();
+    // this isn't the right place for what i'm trying to do, just playin at
+    // this point
+    this.filterCriteria
+      .on( "add", function(tid) {
+        seshbrodude.router.navigate("tids[" + tid.collection.pluck('tid').toString() + "]");
+      })
+      .on( "remove", function(tid) {
+        seshbrodude.router.navigate("tids[" + tid.collection.pluck('tid').toString() + "]");
+      })
+    ;
+    Backbone.history.start({ pushState : false });
   },
-  template : function() {
-    var appTemplate = _.template( "<div id='categories'></div><br/><br/><div id='seshes'></div>" );
-    return appTemplate();
-  },
+  template :  _.template( $( "#seshbro-tpl-seshbro" ).html() ),
   render : function( categoryModel, sessionsCollection ) {
     $( this.el ).html( this.template() );
     return this;
@@ -122,8 +140,8 @@ Seshbro.Views.SessionBrowser = Backbone.View.extend({
 
 $(function() {
   $( document ).ready(function() {
-    var app = new Seshbro.Views.SessionBrowser();
-    $( "#app" ).html( app.render().el );
+    window.seshbrodude = new Seshbro.Views.SessionBrowser();
+    $( "#app" ).html( seshbrodude.render().el );
   });
 });
 
