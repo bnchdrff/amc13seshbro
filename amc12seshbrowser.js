@@ -68,15 +68,15 @@ Seshbro.Views.Sessions = Backbone.View.extend({
   },
   filter : function(tidCollection){
     //this is going to filter based on click and re-render stuff.
-    var filteredColl = _.reduce(tidCollection, function(memo, tid)
-      {
-        var filtered = _.filter(memo, function(session){ 
-          //replace this filtering logic here. 
-          return session.get("taxonomy").hasOwnProperty(tid.get("tid")) === true;
-        });
-        return filtered;
-      }, this.collection.models);
-    console.log(filteredColl);
+    var filteredColl = _.reduce(tidCollection, 
+    function(memo, tid){
+      //every reduce step we filter the collection even more.
+      var filtered = _.filter(memo, function(session){ 
+        //replace this filtering logic here. 
+        return session.get("taxonomy").hasOwnProperty(tid.get("tid")) === true;
+      });
+      return filtered;
+    }, this.collection.models);
     this.render_filter(filteredColl);
   },
   render_filter : function(collection){
