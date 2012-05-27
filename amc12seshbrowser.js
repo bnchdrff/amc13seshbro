@@ -16,7 +16,7 @@ Seshbro.Router = Backbone.Router.extend({
 });
 
 Seshbro.Models.Category = Backbone.RelationalModel.extend({
-  url : "http://dev.talk070512.phy3.thermitic.net/amc2012/sessions/taxonomy-js?callback=?"
+  url : "http://talk.alliedmedia.org/amc2012/sessions/taxonomy-js?callback=?"
 });
 
 Seshbro.Models.Session = Backbone.RelationalModel.extend({
@@ -40,9 +40,9 @@ Seshbro.Collections.Sessions = Backbone.Collection.extend({
       // node at a time. wtf. anyways, there isn't really a case where we'd
       // load a partial set, since we're downloading the whole blob of
       // sessions at once.
-      return "http://dev.talk070512.phy3.thermitic.net/backbone/rest/node/" + _.pluck( models, id ) + ".jsonp?callback=?";
+      return "http://talk.alliedmedia.org/backbone/rest/node/" + _.pluck( models, id ) + ".jsonp?callback=?";
     } else {
-      return "http://dev.talk070512.phy3.thermitic.net/backbone/rest/views/2012sesh_backbone_user.jsonp?callback=?";
+      talk.alliedmedia.orgreturn "http://talk.alliedmedia.org/backbone/rest/views/2012sesh_backbone_user.jsonp?callback=?";
     }
   }
 });
