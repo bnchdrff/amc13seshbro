@@ -1,5 +1,6 @@
 <html>
 <head>
+<link type="text/css" rel="stylesheet" media="all" href="seshbro.css" />
 <script type="text/javascript" src="http://dev.talk070512.phy3.thermitic.net/sites/talk070512.phy3.thermitic.net/modules/contrib/jquery_update/replace/jquery/1.7/jquery.js"></script>
 <script type="text/javascript" src="lib/json2.js"></script>
 <script type="text/javascript" src="lib/underscore.js"></script>
@@ -11,32 +12,55 @@
 <script type="text/html" id="seshbro-tpl-categories">
   <h2>Categories</h2>
   <div class="categories">
-    <h3>exp_levels</h3>
-    <ul>
-      <% _.each(exp_levels, function(term) { %>
-        <li><%= term.tid %>: <%= term.name %>: <input type="checkbox" class="track_selection" value="<%= term.tid %>"/></li>
-      <% }) %>
-    </ul>
-    <h3>kid_friendliness</h3>
-    <ul>
-      <% _.each(kid_friendliness, function(term) { %>
-        <li><%= term.tid %>: <%= term.name %>: <input type="checkbox" class="track_selection" value="<%= term.tid %>"/></li>
-      <% }) %>
-    </ul>
-    <h3>tracks, network gatherings, and practice spaces</h3>
-    <ul>
-      <% _.each(tracks, function(track) { %>
-        <li><%= track.tid %>: <%= track.name %>: <input type="checkbox" class="track_selection" value="<%= track.tid %>"/></li>
-      <% }) %>
-    </ul>
+    <div class="category">
+      <h3>exp_levels</h3>
+      <ul>
+        <% _.each(exp_levels, function(term) { %>
+          <li><%= term.tid %>: <%= term.name %>: <input type="checkbox" value="<%= term.tid %>"/></li>
+        <% }) %>
+      </ul>
+    </div>
+    <div class="category">
+      <h3>kid_friendliness</h3>
+      <ul>
+        <% _.each(kid_friendliness, function(term) { %>
+          <li><%= term.tid %>: <%= term.name %>: <input type="checkbox" value="<%= term.tid %>"/></li>
+        <% }) %>
+      </ul>
+    </div>
+    <div class="category">
+      <h3>terms, network gatherings, and practice spaces</h3>
+      <ul>
+        <% _.each(tracks, function(term) { %>
+          <li><%= term.tid %>: <%= term.name %>: <input type="checkbox" value="<%= term.tid %>"/></li>
+        <% }) %>
+      </ul>
+    </div>
+    <div class="category">
+      <h3>locations</h3>
+      <ul>
+        <% _.each(locations, function(term) { %>
+          <li><%= term.tid %>: <%= term.name %>: <input type="checkbox" value="<%= term.tid %>"/></li>
+        <% }) %>
+      </ul>
+    </div>
+    <div class="category">
+      <h3>schedule</h3>
+      <ul>
+        <% _.each(schedule_blocks, function(term) { %>
+          <li><%= term.tid %>: <%= term.name %>: <input type="checkbox" value="<%= term.tid %>"/></li>
+        <% }) %>
+      </ul>
+    </div>
   </div>
 </script>
 <script type="text/html" id="seshbro-tpl-seshes">
   <h2>Sessions</h2>
   <ul class="seshes">
     <% _.each(seshes, function(sesh) { %>
-      <li class="session">
+      <li class="session" data-sched="<%= sesh.field_2012sched[0].value %>">
         <h3><%= sesh.title %></h3>
+        <span class="block"><%= sesh.field_2012sched[0].value %></span>
       </li>
     <% }); %>
   </ul>

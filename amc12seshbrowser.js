@@ -42,8 +42,11 @@ Seshbro.Collections.Sessions = Backbone.Collection.extend({
       // sessions at once.
       return "http://talk.alliedmedia.org/backbone/rest/node/" + _.pluck( models, id ) + ".jsonp?callback=?";
     } else {
-      talk.alliedmedia.orgreturn "http://talk.alliedmedia.org/backbone/rest/views/2012sesh_backbone_user.jsonp?callback=?";
+      return "http://talk.alliedmedia.org/backbone/rest/views/2012sesh_backbone_user.jsonp?callback=?";
     }
+  },
+  comparator : function( session ) {
+    return session.get("field_2012sched")[0].value;
   }
 });
 
@@ -98,7 +101,7 @@ Seshbro.Views.Sessions = Backbone.View.extend({
 
 Seshbro.Views.SessionBrowser = Backbone.View.extend({
   events : {
-    "click .track_selection" : "select_track"
+    "click input[type=checkbox]" : "select_track"
   },
   initialize : function() {
     this.categoriesView = new Seshbro.Views.Categories();
