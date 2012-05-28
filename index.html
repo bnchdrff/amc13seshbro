@@ -7,59 +7,70 @@
 <script type="text/javascript" src="lib/backbone.js"></script>
 <script type="text/javascript" src="lib/backbone-relational.js"></script>
 <script type="text/javascript" src="lib/doT/doT.js"></script>
-<script type="text/html" id="seshbro-tpl-seshbro">
+<script type="text/x-dot-template" id="seshbro-tpl-seshbro">
   <div id='categories'></div><br/><br/><div id='seshes'></div>
 </script>
-<script type="text/html" id="seshbro-tpl-categories">a
-  {"checkbox":
-    "<li>: <input type='checkbox' value='{{=term.tid}}' id='term-{{=term.tid}}' /><label for='term-{{=term.tid}}'>{{=term.tid}}: {{=term.name}}</label></li>"
-  }
+<script type="text/x-dot-template" id="seshbro-tpl-categories">
+  {{##def.checkbox:
+    <li>
+      <input type="checkbox" value="{{=the.tid}}" id="term-{{=the.tid}}" />
+      <label for="term-{{=the.tid}}">
+        {{=the.tid}}: {{=the.name}}
+      </label>
+    </li>
+  #}}
   {{##def.categories:
   <h2>Categories</h2>
   <div class="categories">
     <div class="category">
       <h3>kid_friendliness</h3>
       <ul>
-        {{#def.checkbox}}
+        {{ for (var tid in it.kid_friendliness) { }}
+          {{ var the = it.kid_friendliness[tid]; }}
+          {{#def.checkbox}}
+        {{ } }}
       </ul>
     </div>
     <div class="category">
       <h3>terms, network gatherings, and practice spaces</h3>
       <ul>
-        <% _.each(tracks, function(term) { %>
-          <li><%= term.tid %>: <%= term.name %>: <input type="checkbox" value="<%= term.tid %>"/></li>
-        <% }) %>
+        {{ for (var tid in it.tracks) { }}
+          {{ var the = it.tracks[tid]; }}
+          {{#def.checkbox}}
+        {{ } }}
       </ul>
     </div>
     <div class="category">
       <h3>locations</h3>
       <ul>
-        <% _.each(locations, function(term) { %>
-          <li><%= term.tid %>: <%= term.name %>: <input type="checkbox" value="<%= term.tid %>"/></li>
-        <% }) %>
+        {{ for (var tid in it.locations) { }}
+          {{ var the = it.locations[tid]; }}
+          {{#def.checkbox}}
+        {{ } }}
       </ul>
     </div>
     <div class="category">
       <h3>schedule</h3>
       <ul>
-        <% _.each(schedule_blocks, function(term) { %>
-          <li><%= term.tid %>: <%= term.name %>: <input type="checkbox" value="<%= term.tid %>"/></li>
-        <% }) %>
+        {{ for (var tid in it.schedule_blocks) { }}
+          {{ var the = it.schedule_blocks[tid]; }}
+          {{#def.checkbox}}
+        {{ } }}
       </ul>
     </div>
   </div>
   #}}
   {{#def.categories}}
 </script>
-<script type="text/html" id="seshbro-tpl-seshes">
+<script type="text/x-dot-template" id="seshbro-tpl-seshes">
   <h2>Sessions</h2>
   <ul class="seshes">
-    <% _.each(seshes, function(sesh) { %>
-      <li class="session" data-sched="<%= sesh.field_2012sched[0].value %>">
-        <h3><%= sesh.title %></h3>
-        <span class="block"><%= sesh.field_2012sched[0].value %></span>
+    {{ for (var i = -1, l = it.seshes.length; ++i < l;) { }}
+      <li class="session" data-sched="{{=it.seshes[i].field_2012sched[0].value}}">
+        <h3>{{=it.seshes[i].title}}</h3>
+        <span class="block">{{it.seshes[i].field_2012sched[0].value}}</span>
       </li>
-    <% }); %>
+    {{ } }}
   </ul>
 </script>
 <script type="text/javascript" src="amc12seshbrowser.js"></script>

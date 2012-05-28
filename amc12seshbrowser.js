@@ -59,7 +59,7 @@ Seshbro.Views.Categories = Backbone.View.extend({
     this.model.on( "change", this.render );
     this.model.fetch();
   },
-  template : _.template( $( "#seshbro-tpl-categories" ).html() ),
+  template : doT.template( $( "#seshbro-tpl-categories" ).html() ),
   render : function() {
     $( "#categories" ).html( this.template( this.model.toJSON() ) );
     return this;
@@ -73,7 +73,7 @@ Seshbro.Views.Sessions = Backbone.View.extend({
     this.collection.on( "reset", this.render );
     this.collection.fetch();
   },
-  template : _.template( $( "#seshbro-tpl-seshes" ).html() ),
+  template : doT.template( $( "#seshbro-tpl-seshes" ).html() ),
   render : function() {
     $( "#seshes" ).html( this.template( { seshes : this.collection.toJSON() } ) );
     return this;
@@ -120,7 +120,7 @@ Seshbro.Views.SessionBrowser = Backbone.View.extend({
     ;
     Backbone.history.start({ pushState : false });
   },
-  template :  _.template( $( "#seshbro-tpl-seshbro" ).html() ),
+  template :  doT.template( $( "#seshbro-tpl-seshbro" ).html() ),
   render : function( categoryModel, sessionsCollection ) {
     $( this.el ).html( this.template() );
     return this;
