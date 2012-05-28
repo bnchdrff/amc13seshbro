@@ -45,7 +45,10 @@ Seshbro.Collections.Sessions = Backbone.Collection.extend({
       return "http://talk.alliedmedia.org/backbone/rest/views/2012sesh_backbone_user.jsonp?callback=?";
     }
   },
-  comparator : function( session ) {
+  comparator : function( session1, session2 ) {
+    console.log(session.get('title'));
+    console.log(session.get('taxonomy')[session.get('field_2012sched')[0].value]);
+    console.log(session.get('taxonomy')[session.get('field_2012sched')[0].value]);
     return session.get("field_2012sched")[0].value;
   }
 });
