@@ -23,37 +23,10 @@
   <h2>Categories</h2>
   <div class="categories">
     <div class="category">
-      <h3>kid_friendliness</h3>
+      <h3>all of em for now</h3>
       <ul>
-        {{ for (var tid in it.kid_friendliness) { }}
-          {{ var the = it.kid_friendliness[tid]; }}
-          {{#def.checkbox}}
-        {{ } }}
-      </ul>
-    </div>
-    <div class="category">
-      <h3>tracks, network gatherings, and practice spaces</h3>
-      <ul>
-        {{ for (var tid in it.tracks) { }}
-          {{ var the = it.tracks[tid]; }}
-          {{#def.checkbox}}
-        {{ } }}
-      </ul>
-    </div>
-    <div class="category">
-      <h3>locations</h3>
-      <ul>
-        {{ for (var tid in it.locations) { }}
-          {{ var the = it.locations[tid]; }}
-          {{#def.checkbox}}
-        {{ } }}
-      </ul>
-    </div>
-    <div class="category">
-      <h3>schedule</h3>
-      <ul>
-        {{ for (var tid in it.schedule_blocks) { }}
-          {{ var the = it.schedule_blocks[tid]; }}
+        {{ for (var tid in it) { }}
+          {{ var the = it[tid]; }}
           {{#def.checkbox}}
         {{ } }}
       </ul>
@@ -68,7 +41,14 @@
     {{ for (var i = -1, l = it.seshes.length; ++i < l;) { }}
       <li class="session" data-sched="{{=it.seshes[i].field_2012sched[0].value}}">
         <h3>{{=it.seshes[i].title}}</h3>
-        <span class="block">{{it.seshes[i].field_2012sched[0].value}}</span>
+        <span class="block">
+        {{
+          var term = seshbrodude.categoriesView.collection.where({tid:it.seshes[i].field_2012sched[0].value})[0];
+          if ( term !== undefined ) {
+        }}
+        {{=term.get("name")}}
+        {{ } }}
+        </span>
       </li>
     {{ } }}
   </ul>

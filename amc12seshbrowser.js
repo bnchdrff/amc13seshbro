@@ -16,18 +16,7 @@ Seshbro.Router = Backbone.Router.extend({
 });
 
 Seshbro.Models.Category = Backbone.RelationalModel.extend({
-  url : "http://talk.alliedmedia.org/amc2012/sessions/taxonomy-js?callback=?",
-  relations : [
-    {
-      type : "HasMany",
-      key : "sessions",
-      relatedModel : "Seshbro.Models.Session",
-      collectionType : "Seshbro.Collections.Sessions",
-      reverseRelation : {
-        key : "category"
-      }
-    }
-  ]
+  idAttribute : "tid"
 });
 
 Seshbro.Models.Session = Backbone.RelationalModel.extend({
@@ -35,6 +24,13 @@ Seshbro.Models.Session = Backbone.RelationalModel.extend({
 });
 
 Seshbro.Models.TaxonomyId = Backbone.Model.extend({});
+
+Seshbro.Collections.Categories = Backbone.Collection.extend({
+  url : "http://talk.alliedmedia.org/amc2012/sessions/taxonomy-js?callback=?",
+  comparator : function ( term ) {
+    return term.get("weight");
+  }
+});
 
 Seshbro.Collections.Sessions = Backbone.Collection.extend({
   url : function( models ) {
@@ -50,21 +46,21 @@ Seshbro.Collections.Sessions = Backbone.Collection.extend({
   },
   comparator : function( sesh1, sesh2 ) {
     if ( sesh1.get('field_2012sched')[0].value > 0 && sesh2.get('field_2012sched')[0].value > 0 ) {
-      var sesh1_b = seshbrodude.categoriesView.model.attributes.schedule_blocks[sesh1.get('field_2012sched')[0].value];
-      var sesh2_b = seshbrodude.categoriesView.model.attributes.schedule_blocks[sesh2.get('field_2012sched')[0].value];
-      if ( sesh1_b.parents[0] > 0 && sesh2_b.parents[0] > 0 ) {
-        var sesh1_pb = seshbrodude.categoriesView.model.attributes.schedule_blocks[sesh1_b.parents[0]];
-        var sesh2_pb = seshbrodude.categoriesView.model.attributes.schedule_blocks[sesh2_b.parents[0]];
+      var sesh1_b = seshbrodude.categoriesView.collection.where({ tid : sesh1.get('field_2012sched')[0].value })[0];
+      var sesh2_b = seshbrodude.categoriesView.collection.where({ tid : sesh2.get('field_2012sched')[0].value })[0];
+      if ( sesh1_b.get("parents")[0] > 0 && sesh2_b.get("parents")[0] > 0 ) {
+        var sesh1_pb = seshbrodude.categoriesView.collection.where({ tid : sesh1_b.get("parents")[0] })[0];
+        var sesh2_pb = seshbrodude.categoriesView.collection.where({ tid : sesh2_b.get("parents")[0] })[0];
         // sesh1 should come after sesh2 if sesh1's parent weighs more
-        if ( sesh1_pb.weight > sesh2_pb.weight ) {
+        if ( sesh1_pb.get("weight") > sesh2_pb.get("weight") ) {
           return 1;
-        } else if ( sesh1_pb.weight < sesh2_pb.weight ) {
+        } else if ( sesh1_pb.get("weight") < sesh2_pb.get("weight") ) {
           return -1;
-        } else if ( sesh1_pb.tid === sesh2_pb.tid ) {
+        } else if ( sesh1_pb.get("tid") === sesh2_pb.get("tid") ) {
           // but if they're the same weight (i.e. the same term) then we compare child term weights
-          if ( sesh1_b.weight > sesh2_b.weight ) {
+          if ( sesh1_b.get("weight") > sesh2_b.get("weight") ) {
             return 1;
-          } else if ( sesh1_b.weight < sesh2_b.weight ) {
+          } else if ( sesh1_b.get("weight") < sesh2_b.get("weight") ) {
             return -1;
           } else {
             return 0;
@@ -86,13 +82,13 @@ Seshbro.Collections.Filters = Backbone.Collection.extend({});
 Seshbro.Views.Categories = Backbone.View.extend({
   initialize : function() {
     _.bindAll( this, "render" );
-    this.model = new Seshbro.Models.Category();
-    this.model.on( "change", this.render );
-    this.model.fetch();
+    this.collection = new Seshbro.Collections.Categories();
+    this.collection.on( "reset", this.render );
+    this.collection.fetch();
   },
   template : doT.template( $( "#seshbro-tpl-categories" ).html() ),
   render : function() {
-    $( "#categories" ).html( this.template( this.model.toJSON() ) );
+    $( "#categories" ).html( this.template( this.collection.toJSON() ) );
     return this;
   }
 });
@@ -152,7 +148,7 @@ Seshbro.Views.SessionBrowser = Backbone.View.extend({
     Backbone.history.start({ pushState : false });
   },
   template :  doT.template( $( "#seshbro-tpl-seshbro" ).html() ),
-  render : function( categoryModel, sessionsCollection ) {
+  render : function( categoriesCollection, sessionsCollection ) {
     $( this.el ).html( this.template() );
     return this;
   },
@@ -163,7 +159,7 @@ Seshbro.Views.SessionBrowser = Backbone.View.extend({
     var removableFilter = this.filterCriteria.where({tid:singleFilter.toString()});
     if(removableFilter.length === 0){
       this.filterCriteria.add(new Seshbro.Models.TaxonomyId({tid:singleFilter}));
-    } 
+    }
     else{
       this.filterCriteria.remove(removableFilter[0]);
     }
