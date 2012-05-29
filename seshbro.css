@@ -12,12 +12,26 @@ li {
 
 .category {
   float: left;
+  width: 49%;
+}
+
+.t_ps_ng .category {
+  width: 32%;
+}
+
+.locations .category {
+  width: 99%;
+}
+
+.locations li {
+  float: left;
+}
+
+.daytime .category {
   width: 24%;
-  height: 133px;
-  overflow-y: auto;
 }
 
 #seshes,
-.category-group {
+.categories {
   clear: both;
 }

@@ -13,21 +13,98 @@
 <script type="text/x-dot-template" id="seshbro-tpl-categories">
   {{##def.checkbox:
     <li>
-      <input type="checkbox" value="{{=the.tid}}" id="term-{{=the.tid}}" />
-      <label for="term-{{=the.tid}}">
-        {{=the.tid}}: {{=the.name}}
+      <input type="checkbox" value="{{=the.get("tid")}}" id="term-{{=the.get("tid")}}" />
+      <label for="term-{{=the.get("tid")}}">
+        {{=the.get("name")}}
       </label>
     </li>
   #}}
+  {{##def.blockcheckbox:
+    <li data-parent-tid="{{=the.get("parents")[0]}}">
+      <input type="checkbox" value="{{=the.get("tid")}}" id="term-{{=the.get("tid")}}" />
+      <label for="term-{{=the.get("tid")}}">
+        {{=the.get("name")}}
+      </label>
+    </li>
+  #}}
+  {{##def.category:
+  #}}
   {{##def.categories:
-  <h2>Categories</h2>
-  <div class="categories">
+  <div class="categories t_ps_ng">
     <div class="category">
-      <h3>all of em for now</h3>
+      <h3>Tracks</h3>
       <ul>
-        {{ for (var tid in it) { }}
-          {{ var the = it[tid]; }}
+        {{ for (var tid in it.t_ps_ng.t) { }}
+          {{ var the = it.t_ps_ng.t[tid]; }}
           {{#def.checkbox}}
+        {{ } }}
+      </ul>
+    </div>
+    <div class="category">
+      <h3>Practice Spaces</h3>
+      <ul>
+        {{ for (var tid in it.t_ps_ng.ps) { }}
+          {{ var the = it.t_ps_ng.ps[tid]; }}
+          {{#def.checkbox}}
+        {{ } }}
+      </ul>
+    </div>
+    <div class="category">
+      <h3>Network Gatherings</h3>
+      <ul>
+        {{ for (var tid in it.t_ps_ng.ng) { }}
+          {{ var the = it.t_ps_ng.ng[tid]; }}
+          {{#def.checkbox}}
+        {{ } }}
+        <pre>list of NGs here!</pre>
+      </ul>
+    </div>
+  </div>
+  <div class="categories locations">
+    <div class="category location">
+      <h3>Places</h3>
+      <ul>
+        {{ for (var tid in it.locations) { }}
+          {{ var the = it.locations[tid]; }}
+          {{#def.checkbox}}
+        {{ } }}
+      </ul>
+    </div>
+  </div>
+  <div class="categories daytime">
+    <div class="category thursday">
+      <h3>Thursday</h3>
+      <ul>
+        {{ for (var tid in it.blocks.thursday) { }}
+          {{ var the = it.blocks.thursday[tid]; }}
+          {{#def.blockcheckbox}}
+        {{ } }}
+      </ul>
+    </div>
+    <div class="category friday">
+      <h3>Friday</h3>
+      <ul>
+        {{ for (var tid in it.blocks.friday) { }}
+          {{ var the = it.blocks.friday[tid]; }}
+          {{#def.blockcheckbox}}
+        {{ } }}
+      </ul>
+    </div>
+    <div class="category saturday">
+      <h3>Saturday</h3>
+      <ul>
+        {{ for (var tid in it.blocks.saturday) { }}
+          {{ var the = it.blocks.saturday[tid]; }}
+          {{#def.blockcheckbox}}
+        {{ } }}
+      </ul>
+    </div>
+    <div class="category sunday">
+      <h3>Sunday</h3>
+      <ul>
+        {{ for (var tid in it.blocks.sunday) { }}
+          {{ var the = it.blocks.sunday[tid]; }}
+          {{#def.blockcheckbox}}
         {{ } }}
       </ul>
     </div>
