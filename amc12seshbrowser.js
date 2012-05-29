@@ -16,19 +16,22 @@ Seshbro.Router = Backbone.Router.extend({
 });
 
 Seshbro.Models.Category = Backbone.RelationalModel.extend({
-  url : "http://talk.alliedmedia.org/amc2012/sessions/taxonomy-js?callback=?"
-});
-
-Seshbro.Models.Session = Backbone.RelationalModel.extend({
-  idAttribute : "nid",
+  url : "http://talk.alliedmedia.org/amc2012/sessions/taxonomy-js?callback=?",
   relations : [
     {
       type : "HasMany",
-      key : "categories",
-      relatedModel : "Seshbro.Models.Category",
-      collectionType: "Seshbro.Colletions.Categories"
+      key : "sessions",
+      relatedModel : "Seshbro.Models.Session",
+      collectionType : "Seshbro.Collections.Sessions",
+      reverseRelation : {
+        key : "category"
+      }
     }
   ]
+});
+
+Seshbro.Models.Session = Backbone.RelationalModel.extend({
+  idAttribute : "nid"
 });
 
 Seshbro.Models.TaxonomyId = Backbone.Model.extend({});
@@ -45,11 +48,36 @@ Seshbro.Collections.Sessions = Backbone.Collection.extend({
       return "http://talk.alliedmedia.org/backbone/rest/views/2012sesh_backbone_user.jsonp?callback=?";
     }
   },
-  comparator : function( session1, session2 ) {
-    console.log(session.get('title'));
-    console.log(session.get('taxonomy')[session.get('field_2012sched')[0].value]);
-    console.log(session.get('taxonomy')[session.get('field_2012sched')[0].value]);
-    return session.get("field_2012sched")[0].value;
+  comparator : function( sesh1, sesh2 ) {
+    if ( sesh1.get('field_2012sched')[0].value > 0 && sesh2.get('field_2012sched')[0].value > 0 ) {
+      var sesh1_b = seshbrodude.categoriesView.model.attributes.schedule_blocks[sesh1.get('field_2012sched')[0].value];
+      var sesh2_b = seshbrodude.categoriesView.model.attributes.schedule_blocks[sesh2.get('field_2012sched')[0].value];
+      if ( sesh1_b.parents[0] > 0 && sesh2_b.parents[0] > 0 ) {
+        var sesh1_pb = seshbrodude.categoriesView.model.attributes.schedule_blocks[sesh1_b.parents[0]];
+        var sesh2_pb = seshbrodude.categoriesView.model.attributes.schedule_blocks[sesh2_b.parents[0]];
+        // sesh1 should come after sesh2 if sesh1's parent weighs more
+        if ( sesh1_pb.weight > sesh2_pb.weight ) {
+          return 1;
+        } else if ( sesh1_pb.weight < sesh2_pb.weight ) {
+          return -1;
+        } else if ( sesh1_pb.tid === sesh2_pb.tid ) {
+          // but if they're the same weight (i.e. the same term) then we compare child term weights
+          if ( sesh1_b.weight > sesh2_b.weight ) {
+            return 1;
+          } else if ( sesh1_b.weight < sesh2_b.weight ) {
+            return -1;
+          } else {
+            return 0;
+          }
+        } else {
+          console.log('broken! bad!');
+          console.log(sesh1_b);
+          console.log(sesh2_b);
+          console.log(sesh1_pb);
+          console.log(sesh2_pb);
+        }
+      }
+    }
   }
 });
 
