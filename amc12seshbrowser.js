@@ -16,7 +16,13 @@ Seshbro.Router = Backbone.Router.extend({
 });
 
 Seshbro.Models.Category = Backbone.Model.extend({
-  idAttribute : "tid"
+  idAttribute : "tid",
+  initialize : function() {
+    this.bind( "change:selected", function() {
+      console.log('something changed!');
+      console.log(this.get("name") + ": " + this.get("selected"));
+    });
+  }
 });
 
 Seshbro.Models.Session = Backbone.Model.extend({
@@ -26,6 +32,7 @@ Seshbro.Models.Session = Backbone.Model.extend({
 Seshbro.Models.TaxonomyId = Backbone.Model.extend({});
 
 Seshbro.Collections.Categories = Backbone.Collection.extend({
+  model : Seshbro.Models.Category,
   url : "http://talk.alliedmedia.org/amc2012/sessions/taxonomy-js?callback=?",
   comparator : function ( term ) {
     // we display terms by section, so no need for a sophistasorter
@@ -34,6 +41,7 @@ Seshbro.Collections.Categories = Backbone.Collection.extend({
 });
 
 Seshbro.Collections.Sessions = Backbone.Collection.extend({
+  model : Seshbro.Models.Session,
   url : function( models ) {
     if ( models ) {
       // XXX: this doesn't work because Drupal Services can only serve one
@@ -47,15 +55,15 @@ Seshbro.Collections.Sessions = Backbone.Collection.extend({
   },
   comparator : function ( sesh ) {
     if ( sesh.get("field_2012sched")[0].value > 0 ) {
-      term = seshbrodude.categoriesView.collection.where({ tid : sesh.get("field_2012sched")[0].value })[0];
+      term = seshbrodude.categoriesView.collection.get( sesh.get("field_2012sched")[0].value );
       if ( 514 == term.get("tid") ) {
         return -9000 + sesh.get("nid") * .1;
       } else {
-        p_term = seshbrodude.categoriesView.collection.where({ tid : term.get("parents")[0] })[0];
+        p_term = seshbrodude.categoriesView.collection.get( term.get("parents")[0] );
         return ( p_term.get("weight") * 10 + term.get("weight") + sesh.get("nid") * .1 );
       }
     } else {
-      return 9999;
+      return 99999;
     }
   }
 });
@@ -134,7 +142,7 @@ Seshbro.Views.Sessions = Backbone.View.extend({
       locations : [],
       blocks : []
     };
-    var groups_intersection = [];
+    var sesh_groups_intersection = [];
     var groups = {
       t_ps_ng : catsColl.where({ vid : "10", selected: true }),
       locations : catsColl.where({ vid : "16", selected: true }),
@@ -156,12 +164,12 @@ Seshbro.Views.Sessions = Backbone.View.extend({
         sesh_groups_or_res[group] = seshes;
       }
     }
-    groups_intersection = _.intersection(
+    sesh_groups_intersection = _.intersection(
       sesh_groups_or_res.t_ps_ng,
       sesh_groups_or_res.locations,
       sesh_groups_or_res.blocks
     );
-    this.render_filter( groups_intersection );
+    this.render_filter( sesh_groups_intersection );
   },
   render_filter : function( collection ) {
     //This will re-render the view based on the collection given to it.
@@ -180,18 +188,9 @@ Seshbro.Views.SessionBrowser = Backbone.View.extend({
   initialize : function() {
     this.categoriesView = new Seshbro.Views.Categories();
     this.sessionsView = new Seshbro.Views.Sessions();
-    this.filterCriteria = new Seshbro.Collections.Filters();
-    this.router = new Seshbro.Router();
     // this isn't the right place for what i'm trying to do, just playin at
     // this point
-    this.filterCriteria
-      .on( "add", function(tid) {
-        seshbrodude.router.navigate("tids[" + tid.collection.pluck('tid').toString() + "]");
-      })
-      .on( "remove", function(tid) {
-        seshbrodude.router.navigate("tids[" + tid.collection.pluck('tid').toString() + "]");
-      })
-    ;
+    this.router = new Seshbro.Router();
     Backbone.history.start({ pushState : false });
   },
   template :  doT.template( $( "#seshbro-tpl-seshbro" ).html() ),
