@@ -49,10 +49,10 @@ Seshbro.Collections.Sessions = Backbone.Collection.extend({
     if ( sesh.get("field_2012sched")[0].value > 0 ) {
       term = seshbrodude.categoriesView.collection.where({ tid : sesh.get("field_2012sched")[0].value })[0];
       if ( 514 == term.get("tid") ) {
-        return -22;
+        return -9000 + sesh.get("nid") * .1;
       } else {
         p_term = seshbrodude.categoriesView.collection.where({ tid : term.get("parents")[0] })[0];
-        return ( p_term.get("weight") + term.get("weight") * .1 );
+        return ( p_term.get("weight") * 10 + term.get("weight") + sesh.get("nid") * .1 );
       }
     } else {
       return 9999;
