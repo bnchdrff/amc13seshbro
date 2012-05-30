@@ -123,8 +123,20 @@ Seshbro.Views.Sessions = Backbone.View.extend({
     $( "#seshes" ).html( this.template( { seshes : this.collection.toJSON() } ) );
     return this;
   },
-  filter : function(tidCollection){
-    //this is going to filter based on click and re-render stuff.
+  filter : function( termCollection ) {
+    var filteredColl = [];
+    var sessions = this.collection.models;
+    _.each (
+      termCollection,
+      function ( term ) {
+        var filtered = _.filter ( sessions, function( session ) {
+          return session.get("taxonomy").hasOwnProperty(term.get("tid")) === true;
+        });
+        filteredColl = _.union( filteredColl, filtered );
+      }
+    );
+    this.render_filter( filteredColl );
+/*    //this is going to filter based on click and re-render stuff.
     var filteredColl = _.reduce(tidCollection, 
     function(memo, tid){
       //every reduce step we filter the collection even more.
@@ -134,9 +146,9 @@ Seshbro.Views.Sessions = Backbone.View.extend({
       });
       return filtered;
     }, this.collection.models);
-    this.render_filter(filteredColl);
+    this.render_filter(filteredColl);*/
   },
-  render_filter : function(collection){
+  render_filter : function( collection ) {
     //This will re-render the view based on the collection given to it.
     //This should update the lower session view based on what is clicked so it's stateless right now.
     collection = new Seshbro.Collections.Sessions(collection);
@@ -146,7 +158,7 @@ Seshbro.Views.Sessions = Backbone.View.extend({
 
 Seshbro.Views.SessionBrowser = Backbone.View.extend({
   events : {
-    "click input[type=checkbox]" : "select_track"
+    "change input[type=checkbox]" : "select_track"
   },
   initialize : function() {
     this.categoriesView = new Seshbro.Views.Categories();

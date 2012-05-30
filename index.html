@@ -27,7 +27,11 @@
       </label>
     </li>
   #}}
-  {{##def.category:
+  {{##def.controls:
+    <div class="controls">
+      <a href="#" id="select-all">Select all</a>
+      <a href="#" id="select-none">Select none</a>
+    </div>
   #}}
   {{##def.categories:
   <div class="categories t_ps_ng">
@@ -110,6 +114,7 @@
     </div>
   </div>
   #}}
+  {{#def.controls}}
   {{#def.categories}}
 </script>
 <script type="text/x-dot-template" id="seshbro-tpl-seshes">
