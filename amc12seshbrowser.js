@@ -15,11 +15,11 @@ Seshbro.Router = Backbone.Router.extend({
   }
 });
 
-Seshbro.Models.Category = Backbone.RelationalModel.extend({
+Seshbro.Models.Category = Backbone.Model.extend({
   idAttribute : "tid"
 });
 
-Seshbro.Models.Session = Backbone.RelationalModel.extend({
+Seshbro.Models.Session = Backbone.Model.extend({
   idAttribute : "nid"
 });
 
@@ -60,7 +60,8 @@ Seshbro.Collections.Sessions = Backbone.Collection.extend({
   }
 });
 
-Seshbro.Collections.Filters = Backbone.Collection.extend({});
+Seshbro.Collections.Filters = Backbone.Collection.extend({
+});
 
 Seshbro.Views.Categories = Backbone.View.extend({
   initialize : function() {
@@ -123,42 +124,45 @@ Seshbro.Views.Sessions = Backbone.View.extend({
     $( "#seshes" ).html( this.template( { seshes : this.collection.toJSON() } ) );
     return this;
   },
-  filter : function( termCollection ) {
-    var filteredColl = [];
-    var sessions = this.collection.models;
-    _.each (
-      termCollection,
-      function ( term ) {
-        var filtered = _.filter ( sessions, function( session ) {
-          return session.get("taxonomy").hasOwnProperty(term.get("tid")) === true;
-        });
-        filteredColl = _.union( filteredColl, filtered );
-      }
-    );
-    this.render_filter( filteredColl );
-/*    //this is going to filter based on click and re-render stuff.
-    var filteredColl = _.reduce(tidCollection, 
-    function(memo, tid){
-      //every reduce step we filter the collection even more.
-      var filtered = _.filter(memo, function(session){ 
-        //replace this filtering logic here. 
-        return session.get("taxonomy").hasOwnProperty(tid.get("tid")) === true;
-      });
-      return filtered;
-    }, this.collection.models);
-    this.render_filter(filteredColl);*/
+  filter : function( catsColl ) {
+    // for each vocabulary group (t_ps_ng, locations, and schedblocks),
+    // do an OR search
+    // then display the intersection of those result sets
+    var seshes = this.collection.models;
+    var sesh_groups_or_res = [];
+    var groups_intersection = [];
+    var groups = {
+      t_ps_ng : catsColl.where({ vid : "10", selected: true }),
+      locations : catsColl.where({ vid : "16", selected: true }),
+      blocks : catsColl.where({ vid : "15", selected: true })
+    };
+    for ( var group in groups ) {
+      _.each (
+        groups[group],
+        function ( term ) {
+          var filtered = _.filter( seshes, function( sesh ) {
+            return sesh.get("taxonomy").hasOwnProperty(term.get("tid")) === true;
+          });
+          sesh_groups_or_res.push( filtered );
+        }
+      );
+    }
+    groups_intersection = _.intersection( _.flatten( sesh_groups_or_res ) );
+    this.render_filter( groups_intersection );
   },
   render_filter : function( collection ) {
     //This will re-render the view based on the collection given to it.
     //This should update the lower session view based on what is clicked so it's stateless right now.
     collection = new Seshbro.Collections.Sessions(collection);
-    $( "#seshes" ).html( this.template( { seshes : collection.toJSON() } ) );
+    $( "#seshes" ).html( this.template({ seshes : collection.toJSON() }) );
   }
 });
 
 Seshbro.Views.SessionBrowser = Backbone.View.extend({
   events : {
-    "change input[type=checkbox]" : "select_track"
+    "change input[type=checkbox]" : "select_track",
+    "click #select-all" : "select_all",
+    "click #select-none" : "select_none"
   },
   initialize : function() {
     this.categoriesView = new Seshbro.Views.Categories();
@@ -182,19 +186,18 @@ Seshbro.Views.SessionBrowser = Backbone.View.extend({
     $( this.el ).html( this.template() );
     return this;
   },
-  select_track : function(e){
-    //$(e.currentTarget).val() grabs the current value of the checkbox being clicked. I made the value the
-    //TID of the model.
-    var singleFilter = $(e.currentTarget).val();
-    var removableFilter = this.filterCriteria.where({tid:singleFilter.toString()});
-    if(removableFilter.length === 0){
-      this.filterCriteria.add(new Seshbro.Models.TaxonomyId({tid:singleFilter}));
-    }
-    else{
-      this.filterCriteria.remove(removableFilter[0]);
-    }
-    //console.log(this.filterCriteria.models);
-    this.sessionsView.filter(this.filterCriteria.models);
+  select_track : function( e ) {
+    // store selected state as a property right smack dab in the middle of the category model
+    var this_tid = $( e.currentTarget ).val();
+    var this_state = $( e.currentTarget ).prop( 'checked' );
+    this.categoriesView.collection.where({ tid : this_tid })[0].set({ selected : this_state });
+    this.sessionsView.filter( this.categoriesView.collection );
+  },
+  select_all : function( e ) {
+    this.$el.find( 'input' ).prop( 'checked', true );
+  },
+  select_none : function ( e ) {
+    this.$el.find( 'input' ).prop( 'checked', false );
   }
 });
 

@@ -77,6 +77,13 @@
   </div>
   <div class="categories daytime">
     <div class="category thursday">
+      <h3>Ongoing</h3>
+      <ul>
+        {{ for (var tid in it.blocks.ongoing) { }}
+          {{ var the = it.blocks.ongoing[tid]; }}
+          {{#def.blockcheckbox}}
+        {{ } }}
+      </ul>
       <h3>Thursday</h3>
       <ul>
         {{ for (var tid in it.blocks.thursday) { }}
