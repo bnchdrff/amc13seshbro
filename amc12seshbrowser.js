@@ -45,88 +45,18 @@ Seshbro.Collections.Sessions = Backbone.Collection.extend({
       return "http://talk.alliedmedia.org/backbone/rest/views/2012sesh_backbone_user.jsonp?callback=?";
     }
   },
-  comparator : function( sesh1, sesh2 ) {
-    if ( sesh1.get('field_2012sched')[0].value > 0 && sesh2.get('field_2012sched')[0].value > 0 ) {
-      var term1 = seshbrodude.categoriesView.collection.where({ tid : sesh1.get('field_2012sched')[0].value })[0];
-      var term2 = seshbrodude.categoriesView.collection.where({ tid : sesh2.get('field_2012sched')[0].value })[0];
-      // ongoing goes to the top
-      if ( 514 == term1.get("tid") == term2.get("tid") ) {
-        return 0;
-      }
-      if ( term1.get("tid") == 514 ) {
-        return -1;
-      }
-      if ( term2.get("tid") == 514 ) {
-        return 1;
-      }
-      // if both terms have parents, then compare the parents first
-      if ( term1.get("parents")[0] > 0 && term2.get("parents")[0] > 0 ) {
-        var term1_p = seshbrodude.categoriesView.collection.where({ tid : term1.get("parents")[0] })[0];
-        var term2_p = seshbrodude.categoriesView.collection.where({ tid : term2.get("parents")[0] })[0];
-        // sesh1 should come after sesh2 if sesh1's parent weighs more
-        if ( term1_p.get("weight") > term2_p.get("weight") ) {
-          return 1;
-        } else if ( term1_p.get("weight") < term2_p.get("weight") ) {
-          return -1;
-        } else if ( term1_p.get("tid") == term2_p.get("tid") ) {
-          // but if they're the same weight (i.e. the same term) then we compare child term weights
-          return term1.get("weight") - term2.get("weight");
-        } else {
-          console.log('broken #1! bad!');
-        }
-      } else if ( term1.get("parents")[0] > 0 && term2.get("parents")[0] == 0 ) {
-        console.log("term1 has parents but term2 doesn't");
-        var term1_p = seshbrodude.categoriesView.collection.where({ tid : term1.get("parents")[0] })[0];
-        return term1_p.get("weight") - term2.get("weight");
-      } else if ( term1.get("parents")[0] == 0 && term2.get("parents")[0] > 0 ) {
-        console.log("term1 doesn't have parents but term2 does");
-        var term2_p = seshbrodude.categoriesView.collection.where({ tid : term2.get("parents")[0] })[0];
-        return term1.get("weight") - term2_p.get("weight");
-      } else if ( term1.get("parents")[0] == 0 && term2.get("parents")[0] == 0 ) {
-        console.log("neither term1 nor term2 have parents. sad.");
-        return term1.get("weight") - term2.get("weight");
+  comparator : function ( sesh ) {
+    if ( sesh.get("field_2012sched")[0].value > 0 ) {
+      term = seshbrodude.categoriesView.collection.where({ tid : sesh.get("field_2012sched")[0].value })[0];
+      if ( 514 == term.get("tid") ) {
+        return -22;
       } else {
-        console.log('broken #2! bad!');
+        p_term = seshbrodude.categoriesView.collection.where({ tid : term.get("parents")[0] })[0];
+        return ( p_term.get("weight") + term.get("weight") * .1 );
       }
-    // now let's handle sessions without a schedblock defined
-    } else if ( sesh1.get('field_2012sched')[0].value > 0 && sesh2.get('field_2012sched')[0].value == 0 ) {
-      return -1;
-    } else if ( sesh1.get('field_2012sched')[0].value == 0 && sesh2.get('field_2012sched')[0].value > 0 ) {
-      return 1;
     } else {
-      return 0;
+      return 9999;
     }
-/*
-    if ( sesh1.get('field_2012sched')[0].value > 0 && sesh2.get('field_2012sched')[0].value > 0 ) {
-      var sesh1_b = seshbrodude.categoriesView.collection.where({ tid : sesh1.get('field_2012sched')[0].value })[0];
-      var sesh2_b = seshbrodude.categoriesView.collection.where({ tid : sesh2.get('field_2012sched')[0].value })[0];
-      if ( sesh1_b.get("parents")[0] > 0 && sesh2_b.get("parents")[0] > 0 ) {
-        var sesh1_pb = seshbrodude.categoriesView.collection.where({ tid : sesh1_b.get("parents")[0] })[0];
-        var sesh2_pb = seshbrodude.categoriesView.collection.where({ tid : sesh2_b.get("parents")[0] })[0];
-        // sesh1 should come after sesh2 if sesh1's parent weighs more
-        if ( sesh1_pb.get("weight") > sesh2_pb.get("weight") ) {
-          return 1;
-        } else if ( sesh1_pb.get("weight") < sesh2_pb.get("weight") ) {
-          return -1;
-        } else if ( sesh1_pb.get("tid") === sesh2_pb.get("tid") ) {
-          // but if they're the same weight (i.e. the same term) then we compare child term weights
-          if ( sesh1_b.get("weight") > sesh2_b.get("weight") ) {
-            return 1;
-          } else if ( sesh1_b.get("weight") < sesh2_b.get("weight") ) {
-            return -1;
-          } else {
-            return 0;
-          }
-        } else {
-          console.log('broken! bad!');
-          console.log(sesh1_b);
-          console.log(sesh2_b);
-          console.log(sesh1_pb);
-          console.log(sesh2_pb);
-        }
-      }
-    }
-*/
   }
 });
 
