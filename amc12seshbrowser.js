@@ -6,12 +6,31 @@ window.Seshbro = {
   Views: {}
 };
 
+window.app = {};
+
 Seshbro.Router = Backbone.Router.extend({
   initialize : function() {
-    this.route(/^tids\[(.*?)\]$/, "tidize");
+    this.route( "", "tidize" );
+    this.route( /^tids\[(.*?)\]$/, "tidize" );
   },
-  tidize : function(tids) {
-    tids = tids.split(',');
+  tidize : function( tids ) {
+    // browse sessions
+    app.seshbro = new Seshbro.Views.SessionBrowser();
+    app.seshbro.render(function(el) {
+      $( "#app" ).html( el );
+      if ( tids ) {
+        tids = tids.split(',');
+        console.log('tidized:');
+        console.log(tids);
+        app.seshbro.categoriesView.collection.fetch();
+        whereweat = app.seshbro.categoriesView.collection;
+        console.log(whereweat.get(165));
+        _.map( tids, function( tid ) {
+          app.seshbro.categoriesView.collection.get(tid).set({ selected : true });
+        });
+        app.seshbro.sessionsView.filter( app.seshbro.categoriesView.collection );
+      }
+    });
   }
 });
 
@@ -19,8 +38,11 @@ Seshbro.Models.Category = Backbone.Model.extend({
   idAttribute : "tid",
   initialize : function() {
     this.bind( "change:selected", function() {
-      console.log('something changed!');
-      console.log(this.get("name") + ": " + this.get("selected"));
+      var stringOfPearls = _.map(
+        this.collection.where({ selected : true }),
+        function( m ) { return m.get("tid"); }
+      );
+      app.router.navigate( "tids[" + stringOfPearls.toString() + "]" );
     });
   }
 });
@@ -28,8 +50,6 @@ Seshbro.Models.Category = Backbone.Model.extend({
 Seshbro.Models.Session = Backbone.Model.extend({
   idAttribute : "nid"
 });
-
-Seshbro.Models.TaxonomyId = Backbone.Model.extend({});
 
 Seshbro.Collections.Categories = Backbone.Collection.extend({
   model : Seshbro.Models.Category,
@@ -55,20 +75,17 @@ Seshbro.Collections.Sessions = Backbone.Collection.extend({
   },
   comparator : function ( sesh ) {
     if ( sesh.get("field_2012sched")[0].value > 0 ) {
-      term = seshbrodude.categoriesView.collection.get( sesh.get("field_2012sched")[0].value );
+      term = app.seshbro.categoriesView.collection.get( sesh.get("field_2012sched")[0].value );
       if ( 514 == term.get("tid") ) {
         return -9000 + sesh.get("nid") * .1;
       } else {
-        p_term = seshbrodude.categoriesView.collection.get( term.get("parents")[0] );
+        p_term = app.seshbro.categoriesView.collection.get( term.get("parents")[0] );
         return ( p_term.get("weight") * 10 + term.get("weight") + sesh.get("nid") * .1 );
       }
     } else {
       return 99999;
     }
   }
-});
-
-Seshbro.Collections.Filters = Backbone.Collection.extend({
 });
 
 Seshbro.Views.Categories = Backbone.View.extend({
@@ -188,21 +205,20 @@ Seshbro.Views.SessionBrowser = Backbone.View.extend({
   initialize : function() {
     this.categoriesView = new Seshbro.Views.Categories();
     this.sessionsView = new Seshbro.Views.Sessions();
-    // this isn't the right place for what i'm trying to do, just playin at
-    // this point
-    this.router = new Seshbro.Router();
-    Backbone.history.start({ pushState : false });
   },
   template :  doT.template( $( "#seshbro-tpl-seshbro" ).html() ),
-  render : function( categoriesCollection, sessionsCollection ) {
-    $( this.el ).html( this.template() );
-    return this;
+  render : function( done ) {
+    var view = this;
+    view.el.innerHTML = this.template();
+    if ( _.isFunction ( done ) ) {
+      done(view.el);
+    }
   },
   select_track : function( e ) {
     // store selected state as a property right smack dab in the middle of the category model
     var this_tid = $( e.currentTarget ).val();
     var this_state = $( e.currentTarget ).prop( 'checked' );
-    this.categoriesView.collection.where({ tid : this_tid })[0].set({ selected : this_state });
+    this.categoriesView.collection.get( this_tid ).set({ selected : this_state });
     this.sessionsView.filter( this.categoriesView.collection );
   },
   select_all : function( e ) {
@@ -215,8 +231,10 @@ Seshbro.Views.SessionBrowser = Backbone.View.extend({
 
 $(function() {
   $( document ).ready(function() {
-    window.seshbrodude = new Seshbro.Views.SessionBrowser();
-    $( "#app" ).html( seshbrodude.render().el );
+    // this isn't the right place for what i'm trying to do, just playin at
+    // this point
+    app.router = new Seshbro.Router();
+    Backbone.history.start({ pushState : false });
   });
 });
 

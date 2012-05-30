@@ -132,7 +132,7 @@
         <h3>{{=it.seshes[i].title}}</h3>
         <span class="block">
         {{
-          var term = seshbrodude.categoriesView.collection.where({tid:it.seshes[i].field_2012sched[0].value})[0];
+          var term = app.seshbro.categoriesView.collection.where({tid:it.seshes[i].field_2012sched[0].value})[0];
           if ( term !== undefined ) {
         }}
         {{=term.get("name")}}
