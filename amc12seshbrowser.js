@@ -129,7 +129,11 @@ Seshbro.Views.Sessions = Backbone.View.extend({
     // do an OR search
     // then display the intersection of those result sets
     var seshes = this.collection.models;
-    var sesh_groups_or_res = [];
+    var sesh_groups_or_res = {
+      t_ps_ng : [],
+      locations : [],
+      blocks : []
+    };
     var groups_intersection = [];
     var groups = {
       t_ps_ng : catsColl.where({ vid : "10", selected: true }),
@@ -143,11 +147,20 @@ Seshbro.Views.Sessions = Backbone.View.extend({
           var filtered = _.filter( seshes, function( sesh ) {
             return sesh.get("taxonomy").hasOwnProperty(term.get("tid")) === true;
           });
-          sesh_groups_or_res.push( filtered );
+          sesh_groups_or_res[group].push( filtered );
         }
       );
+      sesh_groups_or_res[group] = _.flatten( sesh_groups_or_res[group] );
+      // if it's empty, just fill it up, ya bimbo
+      if ( sesh_groups_or_res[group].length === 0 ) {
+        sesh_groups_or_res[group] = seshes;
+      }
     }
-    groups_intersection = _.intersection( _.flatten( sesh_groups_or_res ) );
+    groups_intersection = _.intersection(
+      sesh_groups_or_res.t_ps_ng,
+      sesh_groups_or_res.locations,
+      sesh_groups_or_res.blocks
+    );
     this.render_filter( groups_intersection );
   },
   render_filter : function( collection ) {
