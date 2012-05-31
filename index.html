@@ -126,17 +126,63 @@
 <script type="text/x-dot-template" id="seshbro-tpl-seshes">
   <h2>Sessions</h2>
   <ul class="seshes">
-    {{ for (var i = -1, l = it.seshes.length; ++i < l;) { }}
-      <li class="session" data-sched="{{=it.seshes[i].field_2012sched[0].value}}">
-        <h3>{{=it.seshes[i].title}}</h3>
+    {{ for (var i = -1, l = it.seshes.length; ++i < l;) { sesh = it.seshes[i]; }}
+      <li class="session" data-sched="{{=sesh.field_2012sched[0].value}}">
+        <h3>{{=sesh.title}}</h3>
         <span class="block">
-        {{
-          var term = app.seshbro.categoriesView.collection.where({tid:it.seshes[i].field_2012sched[0].value})[0];
+          {{
+          var term = app.seshbro.categoriesView.collection.get(sesh.field_2012sched[0].value);
           if ( term !== undefined ) {
-        }}
-        {{=term.get("name")}}
-        {{ } }}
+          }}
+            {{=term.get("name")}}
+          {{ } }}
         </span>
+        <span class="location">
+          {{
+          var term = app.seshbro.categoriesView.collection.get(sesh.field_2012loc[0].value);
+          if ( term !== undefined ) {
+          }}
+            {{=term.get("name")}}
+          {{ } }}
+        </span>
+        <span class="explev">
+          {{
+          var term = app.seshbro.categoriesView.collection.get(sesh.field_2012explev[0].value);
+          if ( term !== undefined ) {
+          }}
+            {{=term.get("name")}}
+          {{ } }}
+        </span>
+        <span class="kid">
+          {{
+          var term = app.seshbro.categoriesView.collection.get(sesh.field_2012kid[0].value);
+          if ( term !== undefined ) {
+          }}
+            {{=term.get("name")}}
+          {{ } }}
+        </span>
+        <span class="hash">
+          {{ if ( sesh.field_2012hash[0] ) { }}
+            #AMC2012 #{{=sesh.field_2012hash[0].value}}
+          {{ } }}
+        </span>
+        <p class="tweetable">
+          {{ if ( sesh.field_2012tweetable[0] ) { }}
+            {{=sesh.field_2012tweetable[0].value}}
+          {{ } }}
+        </p>
+        <p class="short">
+          {{ if ( sesh.field_2012sesh_shortdesc[0] ) { }}
+            {{=sesh.field_2012sesh_shortdesc[0].value}}
+          {{ } }}
+        </p>
+        <ul class="presenters">
+          {{
+          var preses = _.zip( sesh.field_2012sesh_presname, sesh.field_2012sesh_presorg, sesh.field_2012sesh_presbio );
+          for ( var i = -1, len = preses.length; ++i < len; ) {
+          }}
+          {{ } }}
+        </ul>
       </li>
     {{ } }}
   </ul>
