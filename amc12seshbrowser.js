@@ -14,23 +14,22 @@ Seshbro.Router = Backbone.Router.extend({
     this.route( /^tids\[(.*?)\]$/, "tidize" );
   },
   tidize : function( tids ) {
+    var this_router = this;
     // browse sessions
     app.seshbro = new Seshbro.Views.SessionBrowser();
-    app.seshbro.render(function(el) {
-      $( "#app" ).html( el );
-      if ( tids ) {
-        tids = tids.split(',');
-        console.log('tidized:');
-        console.log(tids);
-        app.seshbro.categoriesView.collection.fetch();
-        whereweat = app.seshbro.categoriesView.collection;
-        console.log(whereweat.get(165));
-        _.map( tids, function( tid ) {
-          app.seshbro.categoriesView.collection.get(tid).set({ selected : true });
-        });
-        app.seshbro.sessionsView.filter( app.seshbro.categoriesView.collection );
-      }
-    });
+    var loadthings = function() { this_router.load_from_tids( tids ); };
+    app.seshbro.sessionsView.collection.bind( "reset", loadthings );
+    app.seshbro.render();
+  },
+  load_from_tids : function( tids ) {
+    if ( tids && tids.length > 1 ) {
+      tids = tids.split( "," );
+      $( ".categories input" ).each(function() { $(this).prop({ checked : false }); });
+      _.map( tids, function( tid ) {
+        app.seshbro.categoriesView.collection.get(tid).set({ selected : true });
+        $( "#term-" + tid ).prop({ checked: true });
+      });
+    }
   }
 });
 
@@ -43,6 +42,7 @@ Seshbro.Models.Category = Backbone.Model.extend({
         function( m ) { return m.get("tid"); }
       );
       app.router.navigate( "tids[" + stringOfPearls.toString() + "]" );
+      app.seshbro.sessionsView.filter( app.seshbro.categoriesView.collection );
     });
   }
 });
@@ -95,6 +95,7 @@ Seshbro.Views.Categories = Backbone.View.extend({
     this.collection.on( "reset", this.render );
     this.collection.fetch();
   },
+  id : "categories",
   template : doT.template( $( "#seshbro-tpl-categories" ).html() ),
   render : function() {
     var allblocks = this.collection.where({ vid : "15" });
@@ -133,6 +134,7 @@ Seshbro.Views.Categories = Backbone.View.extend({
       locations : this.collection.where({ vid : "16" })
     };
     $( "#categories" ).html( this.template( categories ) );
+    this.setElement( $( "#categories" ) );
     return this;
   }
 });
@@ -144,9 +146,12 @@ Seshbro.Views.Sessions = Backbone.View.extend({
     this.collection.on( "reset", this.render );
     this.collection.fetch();
   },
+  id : "seshes",
   template : doT.template( $( "#seshbro-tpl-seshes" ).html() ),
   render : function() {
     $( "#seshes" ).html( this.template( { seshes : this.collection.toJSON() } ) );
+    this.setElement( $( "#seshes" ) );
+    app.seshbro.sessionsView.filter(app.seshbro.categoriesView.collection);
     return this;
   },
   filter : function( catsColl ) {
@@ -199,33 +204,34 @@ Seshbro.Views.Sessions = Backbone.View.extend({
 Seshbro.Views.SessionBrowser = Backbone.View.extend({
   events : {
     "change input[type=checkbox]" : "select_track",
-    "click #select-all" : "select_all",
     "click #select-none" : "select_none"
   },
   initialize : function() {
     this.categoriesView = new Seshbro.Views.Categories();
     this.sessionsView = new Seshbro.Views.Sessions();
   },
+  id : "app",
   template :  doT.template( $( "#seshbro-tpl-seshbro" ).html() ),
   render : function( done ) {
     var view = this;
-    view.el.innerHTML = this.template();
+    $( "#app" ).html( this.template() );
+    this.setElement( $( "#app" ) );
     if ( _.isFunction ( done ) ) {
       done(view.el);
     }
+    return this;
   },
   select_track : function( e ) {
     // store selected state as a property right smack dab in the middle of the category model
     var this_tid = $( e.currentTarget ).val();
-    var this_state = $( e.currentTarget ).prop( 'checked' );
+    var this_state = $( e.currentTarget ).prop( "checked" );
     this.categoriesView.collection.get( this_tid ).set({ selected : this_state });
-    this.sessionsView.filter( this.categoriesView.collection );
-  },
-  select_all : function( e ) {
-    this.$el.find( 'input' ).prop( 'checked', true );
   },
   select_none : function ( e ) {
-    this.$el.find( 'input' ).prop( 'checked', false );
+    e.preventDefault();
+    app.router.navigate("");
+    this.categoriesView.collection.reset();
+    this.categoriesView.collection.fetch();
   }
 });
 
