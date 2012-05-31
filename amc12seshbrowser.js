@@ -80,7 +80,7 @@ Seshbro.Collections.Sessions = Backbone.Collection.extend({
         return -9000 + sesh.get("nid") * .1;
       } else {
         p_term = app.seshbro.categoriesView.collection.get( term.get("parents")[0] );
-        return ( p_term.get("weight") * 10 + term.get("weight") + sesh.get("nid") * .1 );
+        return ( p_term.get("weight") * 30 + term.get("weight") + sesh.get("nid") * .1 );
       }
     } else {
       return 99999;
@@ -198,6 +198,14 @@ Seshbro.Views.Sessions = Backbone.View.extend({
     //This should update the lower session view based on what is clicked so it's stateless right now.
     collection = new Seshbro.Collections.Sessions(collection);
     $( "#seshes" ).html( this.template({ seshes : collection.toJSON() }) );
+    this.theme();
+  },
+  theme : function() {
+    $('.seshes', this.$el).find("li[data-day='0']").first().prepend('<h3>ONGOING</h3>');
+    $('.seshes', this.$el).find("li[data-day='427']").first().prepend('<h3>THURSDAY</h3>');
+    $('.seshes', this.$el).find("li[data-day='432']").first().prepend('<h3>FRIDAY</h3>');
+    $('.seshes', this.$el).find("li[data-day='443']").first().prepend('<h3>SATURDAY</h3>');
+    $('.seshes', this.$el).find("li[data-day='453']").first().prepend('<h3>SUNDAY</h3>');
   }
 });
 
