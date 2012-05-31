@@ -130,7 +130,7 @@
       <li class="session"{{
         var term = app.seshbro.categoriesView.collection.get( sesh.field_2012sched[0].value );
         }}{{? term && term.get("parents") }} data-day="{{=term.get("parents")[0]}}"{{?}}>
-        <h4>{{=sesh.title}}</h4>
+        <h4><a href="http://talk.alliedmedia.org/{{=sesh.path}}">{{=sesh.title}}</a></h4>
         <span class="block">
           {{? term !== undefined }}{{=term.get("name")}}{{?}}
         </span>
