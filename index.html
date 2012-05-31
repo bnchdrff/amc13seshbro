@@ -176,14 +176,19 @@
             {{=sesh.field_2012sesh_shortdesc[0].value}}
           {{ } }}
         </p>
-        <div class="presenters">
-          {{
-          var preses = _.zip( sesh.field_2012sesh_presname, sesh.field_2012sesh_presorg, sesh.field_2012sesh_presbio );
-          for ( var presesl = preses.length; presesl--; ) {
-          }}
-            <div>{{=preses[presesl][0].value}}, {{=preses[presesl][1].value}}<div>{{=preses[presesl][2].value}}</div></div>
-          {{ } }}
-        </div>
+        {{? sesh.field_2012sesh_presname[0].value !== null }}
+          <div class="presenters">
+            {{
+            var preses = _.zip( sesh.field_2012sesh_presname, sesh.field_2012sesh_presorg, sesh.field_2012sesh_presbio );
+            for ( var presesl = preses.length; presesl--; ) {
+            }}
+              <div>
+                {{=preses[presesl][0].value}}, {{=preses[presesl][1].value}}
+                {{? preses[presesl][2].value !== null }}<div>{{=preses[presesl][2].value}}</div>{{?}}
+              </div>
+            {{ } }}
+          </div>
+        {{?}}
       </li>
     {{ } }}
   </ul>
