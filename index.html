@@ -8,7 +8,7 @@
 <script type="text/javascript" src="lib/backbone-relational.js"></script>
 <script type="text/javascript" src="lib/doT/doT.js"></script>
 <script type="text/x-dot-template" id="seshbro-tpl-seshbro">
-  <div id='categories'></div><br/><br/><div id='seshes'></div>
+  <div id="categories"></div><div id="seshes"></div>
 </script>
 <script type="text/x-dot-template" id="seshbro-tpl-categories">
   {{##def.checkbox:
@@ -176,13 +176,14 @@
             {{=sesh.field_2012sesh_shortdesc[0].value}}
           {{ } }}
         </p>
-        <ul class="presenters">
+        <div class="presenters">
           {{
           var preses = _.zip( sesh.field_2012sesh_presname, sesh.field_2012sesh_presorg, sesh.field_2012sesh_presbio );
-          for ( var i = -1, len = preses.length; ++i < len; ) {
+          for ( var presesl = preses.length; presesl--; ) {
           }}
+            <div>{{=preses[presesl][0].value}}, {{=preses[presesl][1].value}}<div>{{=preses[presesl][2].value}}</div></div>
           {{ } }}
-        </ul>
+        </div>
       </li>
     {{ } }}
   </ul>

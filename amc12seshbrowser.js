@@ -151,7 +151,7 @@ Seshbro.Views.Sessions = Backbone.View.extend({
   render : function() {
     $( "#seshes" ).html( this.template( { seshes : this.collection.toJSON() } ) );
     this.setElement( $( "#seshes" ) );
-    app.seshbro.sessionsView.filter(app.seshbro.categoriesView.collection);
+    app.seshbro.sessionsView.filter( app.seshbro.categoriesView.collection );
     return this;
   },
   filter : function( catsColl ) {
