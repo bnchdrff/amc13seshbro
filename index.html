@@ -170,13 +170,22 @@
         {{? sesh.field_2012sesh_presname[0].value !== null }}
           <div class="presenters">
             {{
-            var preses = _.zip( sesh.field_2012sesh_presname, sesh.field_2012sesh_presorg, sesh.field_2012sesh_presbio );
-            for ( var presesl = preses.length; presesl--; ) {
+            var preses = _.zip( sesh.field_2012sesh_presname, sesh.field_2012sesh_presorg, sesh.field_2012sesh_presbio, sesh.field_2012sesh_prestalk );
+            for ( var presesi = 0, presesl = preses.length; presesi < preses.length; presesi++ ) {
             }}
+              {{? preses[presesi][0].value.length > 2 }}
               <div>
-                {{=preses[presesl][0].value}}{{? preses[presesl][1].value != null}}, {{=preses[presesl][1].value}}{{?}}
-                {{? preses[presesl][2].value !== null }}<div>{{=preses[presesl][2].value}}</div>{{?}}
+                {{=preses[presesi][0].value}}{{? preses[presesi][1].value.length > 2 }}, {{=preses[presesi][1].value}}{{?}}
+                {{? preses[presesi][2].value.length > 2 }}
+                <div>
+                  {{=preses[presesi][2].value}}
+                  {{? preses[presesi][3] && preses[presesi][3].uid > 0 }}
+                    <a href="http://talk.alliedmedia.org/user/{{=preses[presesi][3].uid}}">(profile)</a>
+                  {{?}}
+                </div>
+                {{?}}
               </div>
+              {{?}}
             {{ } }}
           </div>
         {{?}}
