@@ -75,12 +75,13 @@ Seshbro.Collections.Sessions = Backbone.Collection.extend({
   },
   comparator : function ( sesh ) {
     if ( sesh.get("field_2012sched")[0].value > 0 ) {
-      term = app.seshbro.categoriesView.collection.get( sesh.get("field_2012sched")[0].value );
+      var term = app.seshbro.categoriesView.collection.get( sesh.get("field_2012sched")[0].value );
       if ( 514 == term.get("tid") ) {
         return -9000 + sesh.get("nid") * .1;
       } else {
-        p_term = app.seshbro.categoriesView.collection.get( term.get("parents")[0] );
-        return ( p_term.get("weight") * 30 + term.get("weight") + sesh.get("nid") * .1 );
+        var p_term = app.seshbro.categoriesView.collection.get( term.get("parents")[0] );
+        var weight = ( ( p_term.get("weight") * 100 ) + term.get("weight") + sesh.get("nid") * .1 );
+        return weight;
       }
     } else {
       return 99999;
