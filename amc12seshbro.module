@@ -23,11 +23,11 @@ function amc12seshbro_page() {
   drupal_add_js(drupal_get_path('module', 'amc12seshbro')."/lib/underscore.js");
   drupal_add_js(drupal_get_path('module', 'amc12seshbro')."/lib/backbone.js");
   drupal_add_js(drupal_get_path('module', 'amc12seshbro')."/lib/doT/doT.min.js");
-  drupal_add_js(drupal_get_path('module', 'amc12seshbro')."/amc12seshbro.js", array('scope' => 'footer'));
+  drupal_add_js(drupal_get_path('module', 'amc12seshbro')."/amc12seshbro.js");
   drupal_add_css(drupal_get_path('module', 'amc12seshbro')."/amc12seshbro.css");
 
-  $output = file_get_contents("amc12seshbro.jst.html");
-  $output .= "<div id=\"amc12seshbro\" class=\"session-browser-wait\"></div><a href='http://talk.alliedmedia.org/sessions/list'>View a flat, screen reader-friendly list of all AMC sessions here.</a>";
+  drupal_set_html_head(file_get_contents(drupal_get_path('module', 'amc12seshbro')."/amc12seshbro.jst.html"));
+  $output = "<div id=\"amc12seshbro\" class=\"session-browser-wait\"></div><a href='http://talk.alliedmedia.org/sessions/list'>View a flat, screen reader-friendly list of all AMC sessions here.</a>";
 
   return $output;
 }
