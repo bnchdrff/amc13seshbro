@@ -51,6 +51,10 @@ Seshbro.Models.Session = Backbone.Model.extend({
   idAttribute : "nid"
 });
 
+Seshbro.Models.Seshflag = Backbone.Model.extend({
+  idAttribute : "nid"
+});
+
 Seshbro.Collections.Categories = Backbone.Collection.extend({
   model : Seshbro.Models.Category,
   url : "http://talk.alliedmedia.org/amc2012/sessions/taxonomy-js?callback=?",
@@ -58,6 +62,11 @@ Seshbro.Collections.Categories = Backbone.Collection.extend({
     // we display terms by section, so no need for a sophistasorter
     return term.get("weight");
   }
+});
+
+Seshbro.Collections.Seshflags - Backbone.Collection.extend({
+  model : Seshbro.Models.Seshflag,
+  url : "http://talk.alliedmedia.org/amc2012/sessions/flag-json?callback=?"
 });
 
 Seshbro.Collections.Sessions = Backbone.Collection.extend({
