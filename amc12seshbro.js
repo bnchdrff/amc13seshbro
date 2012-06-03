@@ -228,12 +228,12 @@ Seshbro.Views.SessionBrowser = Backbone.View.extend({
     this.categoriesView = new Seshbro.Views.Categories();
     this.sessionsView = new Seshbro.Views.Sessions();
   },
-  id : "app",
+  id : "amc12seshbro",
   template :  doT.template( $( "#seshbro-tpl-seshbro" ).html() ),
   render : function( done ) {
     var view = this;
-    $( "#app" ).html( this.template() );
-    this.setElement( $( "#app" ) );
+    $( "#amc12seshbro" ).html( this.template() );
+    this.setElement( $( "#amc12seshbro" ) );
     if ( _.isFunction ( done ) ) {
       done(view.el);
     }
