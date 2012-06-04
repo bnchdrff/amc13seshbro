@@ -147,12 +147,7 @@
                 {{? preses[presesi][0].value.length > 2 }}
                 <div>
                   {{? preses[presesi][3] && preses[presesi][3].uid > 0 }}
-                  <a href="/user/{{=preses[presesi][3].uid}}">
-                  {{?}}
-                    {{=preses[presesi][0].value}}
-                  {{? preses[presesi][3] && preses[presesi][3].uid > 0 }}
-                  </a>
-                  {{?}}{{? preses[presesi][1].value.length > 2 }}, {{=preses[presesi][1].value}}{{?}}
+                  <a href="/user/{{=preses[presesi][3].uid}}">{{?}}{{=preses[presesi][0].value}}{{? preses[presesi][3] && preses[presesi][3].uid > 0 }}</a>{{?}}{{? preses[presesi][1].value.length > 2 }}, {{=preses[presesi][1].value}}{{?}}
                   {{? preses[presesi][2].value.length > 2 }}
                   <div>
                     {{=preses[presesi][2].value}}
@@ -179,13 +174,13 @@
             var term = app.seshbro.categoriesView.collection.get(sesh.field_2012explev[0].value);
             }}
             {{? term !== undefined }}{{=term.get("name")}}{{?}}
-          </span>
+          </span> |
           <span class="kid">
             {{
             var term = app.seshbro.categoriesView.collection.get(sesh.field_2012kid[0].value);
             }}
             {{? term !== undefined }}{{=term.get("name")}}{{?}}
-          </span>
+          </span> |
           {{? sesh.field_2012hash[0] }}
             <span class="hash">
               #AMC2012 #{{=sesh.field_2012hash[0].value}}
