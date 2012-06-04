@@ -1,0 +1,70 @@
+.styleRadio, .styleCheckbox {
+	background-repeat: no-repeat !important;
+	cursor: pointer;
+	position: relative;
+	z-index: 10;
+}
+
+.styleRadio input, .styleCheckbox input {
+	position: relative;
+	z-index: 0;
+}
+
+.styleRadio {
+	background-image: url(../images/radio.png);
+	display: inline-block;
+	height: 14px;
+	overflow: hidden;
+	vertical-align: middle;
+	width: 15px;
+}
+
+* html .styleRadio {
+	background-image: url(../images/radio.gif);
+}
+
+.styleRadio.rchecked {
+	background-position: 0 -28px; /* Radio checked */
+}
+
+.styleRadio:not(.rchecked):not(.disabled):hover {
+	background-position: 0 -14px; /* Radio not checked, hover */
+}
+
+.styleRadio.disabled {
+	background-position: 0 -42px; /* Radio disabled, not checked */
+}
+
+.styleRadio.disabled.rchecked {
+	background-position: 0 -56px; /* Radio disabled but checked */
+}
+
+.styleCheckbox {
+	background-image: url(../images/checkbox.png); /* Checkbox not checked */
+	display: inline-block;
+	height: 13px;
+	overflow: hidden;
+	vertical-align: middle;
+	width: 14px;
+	z-index: 10;
+}
+
+* html .styleCheckbox {
+	background-image: url(../images/checkbox.gif); /* Ugly IE 6 Hack */
+}
+
+.styleCheckbox.cchecked {
+	background-position: 0 -26px; /* Checkbox checked */
+}
+
+.styleCheckbox:not(.cchecked):not(.disabled):hover {
+	background-position: 0 -13px; /* Checkbox not checked, hover */
+}
+
+.styleCheckbox.disabled {
+	background-position: 0 -39px; /* Checkbox disabled, not checked */
+}
+
+.styleCheckbox.disabled.cchecked {
+	background-position: 0 -52px; /* Checkbox disabled but checked */
+}

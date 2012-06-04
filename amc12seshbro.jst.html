@@ -20,11 +20,13 @@
   #}}
   {{##def.controls:
     <div class="controls">
-      <a href="#" id="select-none">Select none</a>
+      Filter by
+      <a href="#" id="select-none">View all sessions</a>
     </div>
   #}}
   {{##def.categories:
   <div class="categories t_ps_ng">
+    <a href="#" class="expandocat">Content</a>
     <div class="category">
       <h3>Tracks</h3>
       <ul>
@@ -50,13 +52,13 @@
           {{ var the = it.t_ps_ng.ng[tid]; }}
           {{#def.checkbox}}
         {{ } }}
-        <pre>list of NGs here!</pre>
       </ul>
     </div>
+    <div class="clear-both">&nbsp;</div>
   </div>
   <div class="categories locations">
+    <a href="#" class="expandocat">Place</a>
     <div class="category location">
-      <h3>Places</h3>
       <ul>
         {{ for (var tid in it.locations) { }}
           {{ var the = it.locations[tid]; }}
@@ -64,10 +66,12 @@
         {{ } }}
       </ul>
     </div>
+    <div class="clear-both">&nbsp;</div>
   </div>
   <div class="categories daytime">
+    <a href="#" class="expandocat">Day/Time</a>
     <div class="category thursday">
-      <h3>Ongoing </h3>
+      <h3>Ongoing</h3>
       <ul>
         {{ for (var tid in it.blocks.ongoing) { }}
           {{ var the = it.blocks.ongoing[tid]; }}
@@ -109,77 +113,86 @@
         {{ } }}
       </ul>
     </div>
+    <div class="clear-both">&nbsp;</div>
   </div>
   #}}
   {{#def.controls}}
   {{#def.categories}}
 </script>
 <script type="text/x-dot-template" id="seshbro-tpl-seshes">
-  <h2>Sessions</h2>
   <ul class="seshes">
     {{ for (var i = -1, l = it.seshes.length; ++i < l;) { var sesh = it.seshes[i]; }}
       <li class="session"{{
-        var term = app.seshbro.categoriesView.collection.get( sesh.field_2012sched[0].value );
-        }}{{? term && term.get("parents") }} data-day="{{=term.get("parents")[0]}}"{{?}}>
-        <h4><a href="http://talk.alliedmedia.org/{{=sesh.path}}">{{=sesh.title}}</a></h4>
-        <span class="block">
-          {{? term !== undefined }}{{=term.get("name")}}{{?}}
-        </span>
-        <span class="location">
-          {{
-          var term = app.seshbro.categoriesView.collection.get(sesh.field_2012loc[0].value);
-          }}
-          {{? term !== undefined }}{{=term.get("name")}}{{?}}
-        </span>
-        <span class="explev">
-          {{
-          var term = app.seshbro.categoriesView.collection.get(sesh.field_2012explev[0].value);
-          }}
-          {{? term !== undefined }}{{=term.get("name")}}{{?}}
-        </span>
-        <span class="kid">
-          {{
-          var term = app.seshbro.categoriesView.collection.get(sesh.field_2012kid[0].value);
-          }}
-          {{? term !== undefined }}{{=term.get("name")}}{{?}}
-        </span>
-        {{? sesh.field_2012hash[0] }}
-          <span class="hash">
-            #AMC2012 #{{=sesh.field_2012hash[0].value}}
-          </span>
-        {{?}}
-        {{? sesh.field_2012tweetable[0] }}
-          <p class="tweetable">
-            {{=sesh.field_2012tweetable[0].value}}
-          </p>
-        {{?}}
-        {{? sesh.field_2012sesh_shortdesc[0] }}
-          <p class="short">
-            {{=sesh.field_2012sesh_shortdesc[0].value}}
-          </p>
-        {{?}}
-        {{? sesh.field_2012sesh_presname[0].value !== null }}
-          <div class="presenters">
-            {{
-            var preses = _.zip( sesh.field_2012sesh_presname, sesh.field_2012sesh_presorg, sesh.field_2012sesh_presbio, sesh.field_2012sesh_prestalk );
-            for ( var presesi = 0, presesl = preses.length; presesi < preses.length; presesi++ ) {
-            }}
-              {{? preses[presesi][0].value.length > 2 }}
-              <div>
-                {{=preses[presesi][0].value}}{{? preses[presesi][1].value.length > 2 }}, {{=preses[presesi][1].value}}{{?}}
-                {{? preses[presesi][2].value.length > 2 }}
+        var seshtime = app.seshbro.categoriesView.collection.get( sesh.field_2012sched[0].value );
+        }}{{? seshtime && seshtime.get("parents") }} data-day="{{=seshtime.get("parents")[0]}}" data-time="{{=seshtime.get("name")}}"{{?}}>
+        <div class="left">
+          <a href="http://talk.alliedmedia.org/{{=sesh.path}}" class="expandosesh"><h4>{{=sesh.title}}</h4></a>
+          {{? sesh.field_2012tweetable[0] }}
+            <p class="tweetable">
+              {{=sesh.field_2012tweetable[0].value}}
+            </p>
+          {{?}}
+          {{? sesh.field_2012sesh_shortdesc[0] }}
+            <p class="short">
+              {{=sesh.field_2012sesh_shortdesc[0].value}}
+            </p>
+          {{?}}
+          {{? sesh.field_2012sesh_presname[0].value !== null }}
+            <div class="presenters">
+            <h5>Presenters:</h5>
+              {{
+              var preses = _.zip( sesh.field_2012sesh_presname, sesh.field_2012sesh_presorg, sesh.field_2012sesh_presbio, sesh.field_2012sesh_prestalk );
+              for ( var presesi = 0, presesl = preses.length; presesi < preses.length; presesi++ ) {
+              }}
+                {{? preses[presesi][0].value.length > 2 }}
                 <div>
-                  {{=preses[presesi][2].value}}
                   {{? preses[presesi][3] && preses[presesi][3].uid > 0 }}
-                    <a href="http://talk.alliedmedia.org/user/{{=preses[presesi][3].uid}}">(profile)</a>
+                  <a href="/user/{{=preses[presesi][3].uid}}">
+                  {{?}}
+                    {{=preses[presesi][0].value}}
+                  {{? preses[presesi][3] && preses[presesi][3].uid > 0 }}
+                  </a>
+                  {{?}}{{? preses[presesi][1].value.length > 2 }}, {{=preses[presesi][1].value}}{{?}}
+                  {{? preses[presesi][2].value.length > 2 }}
+                  <div>
+                    {{=preses[presesi][2].value}}
+                  </div>
                   {{?}}
                 </div>
                 {{?}}
-              </div>
-              {{?}}
-            {{ } }}
-          </div>
-        {{?}}
+              {{ } }}
+            </div>
+          {{?}}
+        </div>
+        <div class="right">
+          <span class="schedblock">
+            {{? seshtime !== undefined }}{{=seshtime.get("name")}}{{?}}
+          </span>
+          <span class="location">
+            {{
+            var term = app.seshbro.categoriesView.collection.get(sesh.field_2012loc[0].value);
+            }}
+            {{? term !== undefined }}{{=term.get("name")}}{{?}}
+          </span>
+          <span class="explev">
+            {{
+            var term = app.seshbro.categoriesView.collection.get(sesh.field_2012explev[0].value);
+            }}
+            {{? term !== undefined }}{{=term.get("name")}}{{?}}
+          </span>
+          <span class="kid">
+            {{
+            var term = app.seshbro.categoriesView.collection.get(sesh.field_2012kid[0].value);
+            }}
+            {{? term !== undefined }}{{=term.get("name")}}{{?}}
+          </span>
+          {{? sesh.field_2012hash[0] }}
+            <span class="hash">
+              #AMC2012 #{{=sesh.field_2012hash[0].value}}
+            </span>
+          {{?}}
+        </div>
+        <div class="clear-both">&nbsp;</div>
       </li>
     {{ } }}
   </ul>

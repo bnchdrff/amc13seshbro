@@ -8,6 +8,9 @@ window.Seshbro = {
 
 window.app = {};
 
+// in case we move
+app.docroot = "";
+
 Seshbro.Router = Backbone.Router.extend({
   initialize : function() {
     this.route( "", "tidize" );
@@ -29,6 +32,7 @@ Seshbro.Router = Backbone.Router.extend({
         app.seshbro.categoriesView.collection.get(tid).set({ selected : true });
         $( "#term-" + tid ).prop({ checked: true });
       });
+      $( '#categories input' ).parent().styleForm()
     }
   }
 });
@@ -57,7 +61,7 @@ Seshbro.Models.Seshflag = Backbone.Model.extend({
 
 Seshbro.Collections.Categories = Backbone.Collection.extend({
   model : Seshbro.Models.Category,
-  url : "http://talk.alliedmedia.org/amc2012/sessions/taxonomy-js?callback=?",
+  url : app.docroot + "/amc2012/sessions/taxonomy-js?callback=?",
   comparator : function ( term ) {
     // we display terms by section, so no need for a sophistasorter
     return term.get("weight");
@@ -66,7 +70,7 @@ Seshbro.Collections.Categories = Backbone.Collection.extend({
 
 Seshbro.Collections.Seshflags - Backbone.Collection.extend({
   model : Seshbro.Models.Seshflag,
-  url : "http://talk.alliedmedia.org/amc2012/sessions/flag-json?callback=?"
+  url : app.docroot + "/amc2012/sessions/flag-json?callback=?"
 });
 
 Seshbro.Collections.Sessions = Backbone.Collection.extend({
@@ -77,9 +81,9 @@ Seshbro.Collections.Sessions = Backbone.Collection.extend({
       // node at a time. wtf. anyways, there isn't really a case where we'd
       // load a partial set, since we're downloading the whole blob of
       // sessions at once.
-      return "http://talk.alliedmedia.org/backbone/rest/node/" + _.pluck( models, id ) + ".jsonp?callback=?";
+      return app.docroot + "/backbone/rest/node/" + _.pluck( models, id ) + ".jsonp?callback=?";
     } else {
-      return "http://talk.alliedmedia.org/backbone/rest/views/2012sesh_backbone_user.jsonp?callback=?";
+      return app.docroot + "/backbone/rest/views/2012sesh_backbone_user.jsonp?callback=?";
     }
   },
   comparator : function ( sesh ) {
@@ -145,6 +149,7 @@ Seshbro.Views.Categories = Backbone.View.extend({
     };
     $( "#categories" ).html( this.template( categories ) );
     this.setElement( $( "#categories" ) );
+    $( 'input', this.$el ).parent().styleForm()
     return this;
   }
 });
@@ -211,18 +216,20 @@ Seshbro.Views.Sessions = Backbone.View.extend({
     this.theme();
   },
   theme : function() {
-    $('.seshes', this.$el).find("li[data-day='0']").first().prepend('<h3>ONGOING</h3>');
-    $('.seshes', this.$el).find("li[data-day='427']").first().prepend('<h3>THURSDAY</h3>');
-    $('.seshes', this.$el).find("li[data-day='432']").first().prepend('<h3>FRIDAY</h3>');
-    $('.seshes', this.$el).find("li[data-day='443']").first().prepend('<h3>SATURDAY</h3>');
-    $('.seshes', this.$el).find("li[data-day='453']").first().prepend('<h3>SUNDAY</h3>');
+    $('.seshes', this.$el).find("li[data-day='0']").first().prepend('<h2>ONGOING</h2>');
+    $('.seshes', this.$el).find("li[data-day='427']").first().prepend('<h2>THURSDAY</h2>');
+    $('.seshes', this.$el).find("li[data-day='432']").first().prepend('<h2>FRIDAY</h2>');
+    $('.seshes', this.$el).find("li[data-day='443']").first().prepend('<h2>SATURDAY</h2>');
+    $('.seshes', this.$el).find("li[data-day='453']").first().prepend('<h2>SUNDAY</h2>');
   }
 });
 
 Seshbro.Views.SessionBrowser = Backbone.View.extend({
   events : {
     "change input[type=checkbox]" : "select_track",
-    "click #select-none" : "select_none"
+    "click #select-none" : "select_none",
+    "click .expandocat" : "expandocat",
+    "click .expandosesh" : "expandosesh"
   },
   initialize : function() {
     this.categoriesView = new Seshbro.Views.Categories();
@@ -250,6 +257,22 @@ Seshbro.Views.SessionBrowser = Backbone.View.extend({
     app.router.navigate("");
     this.categoriesView.collection.reset();
     this.categoriesView.collection.fetch();
+  },
+  expandocat : function ( e ) {
+    e.preventDefault();
+    $( e.currentTarget ).siblings().toggle();
+    var $par = $( e.currentTarget ).parent()
+    $par.toggleClass( "collapsoed" );
+    if ( $( '.cat-teaser', $par ).length > 0 ) {
+      $( '.cat-teaser', $par ).remove();
+    } else {
+      $par.prepend( "<div class='cat-teaser'>" + $( '.cchecked', $par ).siblings().text() + "</div>" );
+    }
+  },
+  expandosesh : function ( e ) {
+    e.preventDefault();
+    console.log(e);
+    $( e.currentTarget ).parent().parent().toggleClass("expandoed");
   }
 });
 

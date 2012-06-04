@@ -1,0 +1,203 @@
+.controls {
+  text-transform: uppercase;
+  background: white;
+  border-bottom: 1px solid #b5b5b5;
+}
+
+#select-none {
+  float: right;
+}
+
+.expandocat,
+.category h3 {
+  padding-left: 14px;
+}
+
+.expandocat {
+  text-transform: uppercase;
+  display: block;
+  padding-bottom: 7px;
+  background: transparent url(../images/COLLAPSE.png) no-repeat top right;
+}
+
+.collapsoed .expandocat {
+  padding-bottom: 0;
+  background: transparent url(../images/EXPAND.png) no-repeat top right;
+  z-index: 20;
+}
+
+.collapsoed .cat-teaser {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  color: #868686;
+  width: 800px;
+  height: 20px;
+  margin-left: 80px;
+  overflow: hidden;
+}
+
+.expandocat:link,
+.expandocat:visited {
+  color: black;
+  text-decoration: none;
+}
+
+.expandocat:active,
+.expandocat:hover {
+  color: black;
+  text-decoration: underline;
+}
+
+#categories {
+  background: #eaeff0;
+}
+
+.categories {
+  padding: 14px;
+  border-bottom: 1px solid #b5b5b5;
+}
+
+.category {
+  float: left;
+  width: 49%;
+}
+
+.category input {
+  margin: 0;
+  padding: 0;
+}
+
+.category .styleCheckbox {
+  margin-left: -7px;
+}
+
+.category label {
+  display: block;
+  padding-left: 14px;
+  padding-right: 14px;
+  margin-top: -18px;
+  margin-bottom: 4px;
+}
+
+.category ul,
+.category li {
+  margin: 0;
+  padding: 0;
+}
+
+.t_ps_ng .category {
+  width: 32%;
+}
+
+.locations .category {
+  width: 99%;
+}
+
+.locations li {
+  float: left;
+  width: 24%;
+}
+
+.locations label {
+  padding-right: 14px;
+}
+
+.daytime .category {
+  width: 24%;
+}
+
+.clear-both,
+#seshes,
+.categories {
+  clear: both;
+}
+
+.clear-both {
+  height: 0;
+}
+
+#seshes {
+  margin: 0;
+  padding: 0;
+}
+
+#seshes h2 {
+  font: normal 17px/19px 'TitilliumText22LBold';
+  margin: 15px 0;
+  padding: 10px;
+  background: black;
+  color: #ff0;
+}
+
+#seshes h3 {
+}
+
+#seshes h4 {
+  font-size: 16px;
+}
+
+#seshes a.expandosesh:link,
+#seshes a.expandosesh:visited,
+#seshes a.expandosesh:active,
+#seshes a.expandosesh:hover {
+  text-decoration: none;
+  color: #f09;
+}
+
+.seshes {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.session {
+  margin: 0 0 20px 0;
+  padding: 0 0 20px 0;
+  border-bottom: 1px solid gray;
+}
+
+.session .left {
+  width: 680px;
+  float: left;
+  background: transparent url(../images/EXPAND.png) no-repeat top right;
+}
+
+.session.expandoed .left {
+  background: transparent url(../images/COLLAPSE.png) no-repeat top right;
+}
+
+.session .right {
+  width: 240px;
+  float: right;
+}
+
+.session .short,
+.session .presenters {
+  display: none;
+}
+
+.session.expandoed .tweetable {
+  display: none;
+}
+
+.session.expandoed .short,
+.session.expandoed .presenters {
+  display: block;
+}
+
+.session .right {
+  text-transform: uppercase;
+  font-size: 12px;
+  color: #4f4f4f;
+}
+
+.session .right .schedblock,
+.session .right .location {
+  display: block;
+  color: #000;
+}
+
+.session .presenters div div {
+  display: none; /* bio */
+}
