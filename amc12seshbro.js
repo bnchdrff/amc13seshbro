@@ -271,7 +271,6 @@ Seshbro.Views.SessionBrowser = Backbone.View.extend({
   },
   expandosesh : function ( e ) {
     e.preventDefault();
-    console.log(e);
     $( e.currentTarget ).parent().parent().toggleClass("expandoed");
   }
 });
