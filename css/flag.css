@@ -7,6 +7,11 @@
   text-align: left;
   width: 300px;
   font-size: .8em;
+  z-index: 999;
+  background: white;
+  width: 85px;
+  box-shadow: 0px 0px 15px gray;
+  padding: 5px;
 }
 
 .flag-wrapper {
@@ -22,6 +27,4 @@
 }
 
 .flag-waiting .flag-throbber {
-  background: url(flag-throbber.gif) no-repeat right center;
-  padding-right: 13px;
 }

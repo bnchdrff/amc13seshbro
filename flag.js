@@ -83,6 +83,11 @@ Drupal.flagLink = function(context) {
             data.link = updateLink(element, data.newLink);
           }
           $.event.trigger('flagGlobalAfterLinkUpdate', [data]);
+          // update backbone model!
+          app.seshbro.sessionsView.flagColl.get(data.contentId).set({
+            "bkmklink" : data.newLink,
+            "flagStatus" : data.flagStatus
+          });
         }
         else {
           // Failure.

@@ -238,3 +238,22 @@
 .flagsesh {
   float: right;
 }
+
+.flagsesh .flag {
+  display: inline-block;
+  overflow: hidden;
+  text-indent: -999em;
+  width: 12px;
+  height: 11px;
+  background: transparent url(../images/HEART_SPRITE.png) no-repeat 0 0;
+}
+
+.flagsesh .unflag-action {
+  background-position: 0 -27px;
+}
+
+.flagsesh .flag:hover {
+  background-position: 0 -13px;
+}
+
+

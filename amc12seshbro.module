@@ -33,12 +33,12 @@ function amc12seshbro_page() {
 
   drupal_set_html_head(file_get_contents(drupal_get_path('module', 'amc12seshbro')."/amc12seshbro.jst.html"));
 
-  $bkmkblk = views_embed_view('bkmkd_seshes', 'block_1');
+  //$bkmkblk = views_embed_view('bkmkd_seshes', 'block_1');
 
   $output = "<div id=\"amc12seshbro\" class=\"session-browser-wait\">Loading sessions...</div>";
-  $output .= "<div id=\"amc12seshbro-bkmks\">";
-  $output .= $bkmkblk;
-  $output .= "</div>";
+  //$output .= "<div id=\"amc12seshbro-bkmks\">";
+  //$output .= $bkmkblk;
+  //$output .= "</div>";
 
   return $output;
 }
