@@ -87,7 +87,11 @@
 }
 
 .t_ps_ng .category {
-  width: 32%;
+  width: 40%;
+}
+
+.t_ps_ng .category.ng {
+  width: 19%;
 }
 
 .locations .category {
@@ -200,5 +204,31 @@
 
 .session .presenters div div {
   display: none; /* bio */
+}
+
+.track-icon {
+  width: 17px;
+  height: 17px;
+  background-position: 0 0;
+  display: inline-block;
+}
+
+.category li:hover .track-icon {
+  background-position: 0 18px;
+}
+
+.track-gutter {
+  float: left;
+  width: 17px;
+  height: 68px;
+}
+
+.track-gutter div {
+  width: 17px;
+  height: 17px;
+}
+
+.track-gutter div:hover {
+  background-position: 0 18px;
 }
 

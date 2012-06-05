@@ -6,7 +6,7 @@
     <li>
       <input type="checkbox" value="{{=the.get("tid")}}" id="term-{{=the.get("tid")}}" />
       <label for="term-{{=the.get("tid")}}">
-        {{=the.get("name")}}
+        {{=the.get("name")}}{{? the.get("imgurl") }}<span class="track-icon" style="background-image:url(/{{=Drupal.settings.pathToFiles}}{{=the.get("imgurl")}});">&nbsp;</span>{{?}}
       </label>
     </li>
   #}}
@@ -27,7 +27,7 @@
   {{##def.categories:
   <div class="categories t_ps_ng">
     <a href="#" class="expandocat">Content</a>
-    <div class="category">
+    <div class="category t">
       <h3>Tracks</h3>
       <ul>
         {{ for (var tid in it.t_ps_ng.t) { }}
@@ -36,7 +36,7 @@
         {{ } }}
       </ul>
     </div>
-    <div class="category">
+    <div class="category ps">
       <h3>Practice Spaces</h3>
       <ul>
         {{ for (var tid in it.t_ps_ng.ps) { }}
@@ -45,7 +45,7 @@
         {{ } }}
       </ul>
     </div>
-    <div class="category">
+    <div class="category ng">
       <h3>Network Gatherings</h3>
       <ul>
         {{ for (var tid in it.t_ps_ng.ng) { }}
@@ -127,6 +127,18 @@
         }}{{? seshtime && seshtime.get("parents") }} data-day="{{=seshtime.get("parents")[0]}}" data-time="{{=seshtime.get("name")}}"{{?}}>
         <div class="left">
           <a href="http://talk.alliedmedia.org/{{=sesh.path}}" class="expandosesh"><h4>{{=sesh.title}}</h4></a>
+<div class="track-gutter">
+{{
+for (tid in sesh.taxonomy ) {
+  var url = app.seshbro.categoriesView.collection.get(tid).get('imgurl');
+}}
+{{? url }}
+    <div style="background-image:url(/{{=Drupal.settings.pathToFiles}}{{=url}});" title="{{=app.seshbro.categoriesView.collection.get(tid).get('name')}}">&nbsp;</div>
+{{?}}
+{{
+}
+}}
+</div>
           {{? sesh.field_2012tweetable[0] }}
             <p class="tweetable">
               {{=sesh.field_2012tweetable[0].value}}
