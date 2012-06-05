@@ -87,11 +87,13 @@
 }
 
 .t_ps_ng .category {
-  width: 40%;
+  width: 38%;
+  margin-left: 2%;
 }
 
 .t_ps_ng .category.ng {
   width: 19%;
+  margin-left: 0;
 }
 
 .locations .category {
@@ -162,7 +164,7 @@
 }
 
 .session .left {
-  width: 680px;
+  width: 650px;
   float: left;
   background: transparent url(../images/EXPAND.png) no-repeat top right;
 }
@@ -221,6 +223,7 @@
   float: left;
   width: 17px;
   height: 68px;
+  margin: 0 10px 0 5px;
 }
 
 .track-gutter div {
@@ -232,3 +235,6 @@
   background-position: 0 18px;
 }
 
+.flagsesh {
+  float: right;
+}

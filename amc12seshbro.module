@@ -19,6 +19,10 @@ function amc12seshbro_menu() {
  * Dude up a bro, sesh.
  */
 function amc12seshbro_page() {
+  // flag bits
+  drupal_add_css(drupal_get_path('module', 'flag') . '/theme/flag.css');
+  drupal_add_js(drupal_get_path('module', 'flag') . '/theme/flag.js');
+  // our bits
   drupal_add_js(drupal_get_path('module', 'amc12seshbro')."/lib/json2.js");
   drupal_add_js(drupal_get_path('module', 'amc12seshbro')."/lib/backbone.js");
   drupal_add_js(drupal_get_path('module', 'amc12seshbro')."/lib/doT/doT.min.js");

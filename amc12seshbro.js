@@ -68,7 +68,7 @@ Seshbro.Collections.Categories = Backbone.Collection.extend({
   }
 });
 
-Seshbro.Collections.Seshflags - Backbone.Collection.extend({
+Seshbro.Collections.Seshflags = Backbone.Collection.extend({
   model : Seshbro.Models.Seshflag,
   url : app.docroot + "/amc2012/sessions/flag-json?callback=?"
 });
@@ -158,6 +158,11 @@ Seshbro.Views.Sessions = Backbone.View.extend({
   initialize : function() {
     _.bindAll( this, "render" );
     this.collection = new Seshbro.Collections.Sessions();
+    // is user?
+    if ( $('#container' ).hasClass('logged-in') ) {
+      this.flagColl = new Seshbro.Collections.Seshflags();
+      this.flagColl.fetch();
+    }
     this.collection.on( "reset", this.render );
     this.collection.fetch();
   },
@@ -221,10 +226,14 @@ Seshbro.Views.Sessions = Backbone.View.extend({
     $('.seshes', this.$el).find("li[data-day='432']").first().prepend('<h2>FRIDAY</h2>');
     $('.seshes', this.$el).find("li[data-day='443']").first().prepend('<h2>SATURDAY</h2>');
     $('.seshes', this.$el).find("li[data-day='453']").first().prepend('<h2>SUNDAY</h2>');
+    // add flag link events
+    Drupal.flagLink($('.seshes', this.$el));
   }
 });
 
 Seshbro.Views.SessionBrowser = Backbone.View.extend({
+  // we'll put all our events here because so many of the session view
+  // events require the categories to have been built
   events : {
     "change input[type=checkbox]" : "select_track",
     "click #select-none" : "select_none",

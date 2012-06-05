@@ -125,8 +125,6 @@
       <li class="session"{{
         var seshtime = app.seshbro.categoriesView.collection.get( sesh.field_2012sched[0].value );
         }}{{? seshtime && seshtime.get("parents") }} data-day="{{=seshtime.get("parents")[0]}}" data-time="{{=seshtime.get("name")}}"{{?}}>
-        <div class="left">
-          <a href="http://talk.alliedmedia.org/{{=sesh.path}}" class="expandosesh"><h4>{{=sesh.title}}</h4></a>
 <div class="track-gutter">
 {{
 for (tid in sesh.taxonomy ) {
@@ -139,6 +137,13 @@ for (tid in sesh.taxonomy ) {
 }
 }}
 </div>
+        <div class="left">
+          <a href="http://talk.alliedmedia.org/{{=sesh.path}}" class="expandosesh"><h4>{{=sesh.title}}</h4></a>
+          {{? app.seshbro.sessionsView.flagColl }}
+            <div class="flagsesh">
+              {{=app.seshbro.sessionsView.flagColl.get(sesh.nid).get('bkmklink')}}
+            </div>
+          {{?}}
           {{? sesh.field_2012tweetable[0] }}
             <p class="tweetable">
               {{=sesh.field_2012tweetable[0].value}}
