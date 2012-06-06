@@ -52,7 +52,7 @@
         {{ var the = it.t_ps_ng.ng[tid]; }}
           <input type="checkbox" value="{{=the.get("tid")}}" id="term-{{=the.get("tid")}}" />
           <label for="term-{{=the.get("tid")}}">
-            <h3>Network Gatherings</h3>
+            <h3>Network Gatherings{{? the.get("imgurl") }}<span class="track-icon" style="background-image:url(/{{=Drupal.settings.pathToFiles}}{{=the.get("imgurl")}});">&nbsp;</span>{{?}}</h3>
           </label>
       {{ } }}
     </div>
@@ -197,7 +197,7 @@ for (tid in sesh.taxonomy ) {
             var term = app.seshbro.categoriesView.collection.get(sesh.field_2012loc[0].value);
             }}
             {{? term !== undefined }}{{=term.get("name")}}{{?}}
-          </span> |
+          </span>
           <span class="kid">
             {{
             var term = app.seshbro.categoriesView.collection.get(sesh.field_2012kid[0].value);

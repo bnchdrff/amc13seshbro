@@ -151,6 +151,40 @@ Seshbro.Views.Categories = Backbone.View.extend({
     this.setElement( $( "#categories" ) );
     $( 'input', this.$el ).parent().styleForm()
     return this;
+  },
+  events : {
+    "change input.tid" : "select_track",
+    "click #select-none" : "select_none",
+    "click .expandocat" : "expandocat",
+    "change input.checkgroup" : "checkgroup"
+  },
+  select_track : function( e ) {
+    // store selected state as a property right smack dab in the middle of the category model
+    var this_tid = $( e.currentTarget ).val();
+    var this_state = $( e.currentTarget ).prop( "checked" );
+    this.collection.get( this_tid ).set({ selected : this_state });
+  },
+  select_none : function ( e ) {
+    e.preventDefault();
+    app.router.navigate("tids[]", {trigger: true});
+  },
+  expandocat : function ( e ) {
+    e.preventDefault();
+    $( e.currentTarget ).siblings().toggle();
+    var $par = $( e.currentTarget ).parent()
+    $par.toggleClass( "collapsoed" );
+    if ( $( '.cat-teaser', $par ).length > 0 ) {
+      $( '.cat-teaser', $par ).remove();
+    } else {
+      $par.prepend( "<div class='cat-teaser'>" + $( '.cchecked', $par ).siblings().text() + "</div>" );
+    }
+  },
+  checkgroup : function ( e ) {
+    var this_state = $( e.currentTarget ).prop( "checked" );
+    _.each( $(e.currentTarget).parent().parent().find('input.tid'), function ( el ) {
+      $(el).prop("checked", this_state);
+      this.collection.get( $(el).val() ).set({ selected : this_state });
+    });
   }
 });
 
@@ -228,19 +262,17 @@ Seshbro.Views.Sessions = Backbone.View.extend({
     $('.seshes', this.$el).find("li[data-day='453']").first().prepend('<h2>SUNDAY</h2>');
     // add flag link events
     Drupal.flagLink($('.seshes', this.$el));
+  },
+  events : {
+    "click .expandosesh" : "expandosesh"
+  },
+  expandosesh : function ( e ) {
+    e.preventDefault();
+    $( e.currentTarget ).parent().parent().toggleClass("expandoed");
   }
 });
 
 Seshbro.Views.SessionBrowser = Backbone.View.extend({
-  // we'll put all our events here because so many of the session view
-  // events require the categories to have been built
-  events : {
-    "change input.tid" : "select_track",
-    "click #select-none" : "select_none",
-    "click .expandocat" : "expandocat",
-    "click .expandosesh" : "expandosesh",
-    "change input.checkgroup" : "checkgroup"
-  },
   initialize : function() {
     this.categoriesView = new Seshbro.Views.Categories();
     this.sessionsView = new Seshbro.Views.Sessions();
@@ -255,39 +287,6 @@ Seshbro.Views.SessionBrowser = Backbone.View.extend({
       done(view.el);
     }
     return this;
-  },
-  select_track : function( e ) {
-    // store selected state as a property right smack dab in the middle of the category model
-    var this_tid = $( e.currentTarget ).val();
-    var this_state = $( e.currentTarget ).prop( "checked" );
-    this.categoriesView.collection.get( this_tid ).set({ selected : this_state });
-  },
-  select_none : function ( e ) {
-    e.preventDefault();
-    app.router.navigate("tids[]", {trigger: true});
-  },
-  expandocat : function ( e ) {
-    e.preventDefault();
-    $( e.currentTarget ).siblings().toggle();
-    var $par = $( e.currentTarget ).parent()
-    $par.toggleClass( "collapsoed" );
-    if ( $( '.cat-teaser', $par ).length > 0 ) {
-      $( '.cat-teaser', $par ).remove();
-    } else {
-      $par.prepend( "<div class='cat-teaser'>" + $( '.cchecked', $par ).siblings().text() + "</div>" );
-    }
-  },
-  expandosesh : function ( e ) {
-    e.preventDefault();
-    $( e.currentTarget ).parent().parent().toggleClass("expandoed");
-  },
-  checkgroup : function ( e ) {
-    var this_cats_coll = this.categoriesView.collection;
-    var this_state = $( e.currentTarget ).prop( "checked" );
-    _.each( $(e.currentTarget).parent().parent().find('input.tid'), function ( el ) {
-      $(el).prop("checked", this_state);
-      this_cats_coll.get( $(el).val() ).set({ selected : this_state });
-    });
   }
 });
 

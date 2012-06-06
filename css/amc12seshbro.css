@@ -18,6 +18,8 @@
 .expandocat,
 .category h3 {
   padding-left: 14px;
+  position: relative;
+  top: -2px;
 }
 
 .t_ps_ng .category h3,
@@ -103,13 +105,17 @@
   padding: 0;
 }
 
-.t_ps_ng .category {
+.category.t {
+  width: 35%;
+}
+
+.category.ps {
   width: 38%;
   margin-left: 2%;
 }
 
-.t_ps_ng .category.ng {
-  width: 19%;
+.category.ng {
+  width: 22%;
   margin-left: 0;
 }
 
@@ -243,7 +249,7 @@
   background-position: 0 0;
 }
 
-.category li:hover .track-icon {
+.category label:hover .track-icon {
   background-position: 0 18px;
 }
 
@@ -266,9 +272,9 @@
 .noflagsesh {
   float: right;
   display: inline-block;
-  width: 12px;
-  height: 11px;
-  background: transparent url(../images/HEART_SPRITE.png) no-repeat 0 0;
+  width: 14px;
+  height: 14px;
+  background: transparent url(../images/HEARTONS.png) no-repeat 0 0;
 }
 
 .flagsesh {
@@ -279,17 +285,17 @@
   display: inline-block;
   overflow: hidden;
   text-indent: -999em;
-  width: 12px;
-  height: 11px;
-  background: transparent url(../images/HEART_SPRITE.png) no-repeat 0 0;
+  width: 14px;
+  height: 14px;
+  background: transparent url(../images/HEARTONS.png) no-repeat 0 0;
 }
 
 .flagsesh .unflag-action {
-  background-position: 0 -27px;
+  background-position: 0 -30px;
 }
 
 .flagsesh .flag:hover {
-  background-position: 0 -13px;
+  background-position: 0 -15px;
 }
 
 
