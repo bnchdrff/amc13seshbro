@@ -46,12 +46,26 @@
       </ul>
     </div>
     <div class="category ng">
-      <h3>Network Gatherings</h3>
+      {{ for (var tid in it.t_ps_ng.ng) { }}
+        {{ var the = it.t_ps_ng.ng[tid]; }}
+          <input type="checkbox" value="{{=the.get("tid")}}" id="term-{{=the.get("tid")}}" />
+          <label for="term-{{=the.get("tid")}}">
+            <h3>Network Gatherings</h3>
+          </label>
+      {{ } }}
       <ul>
-        {{ for (var tid in it.t_ps_ng.ng) { }}
-          {{ var the = it.t_ps_ng.ng[tid]; }}
-          {{#def.checkbox}}
-        {{ } }}
+      {{
+      var ngs = _.filter( app.seshbro.sessionsView.collection.models, function ( sesh ) {
+        return sesh.get("taxonomy").hasOwnProperty("519");
+      } );
+      console.log(app.seshbro.sessionsView.collection.models);
+      console.log(ngs);
+      for (var ngs_i = -1, ngs_l = ngs.length; ++ngs_i < ngs_l;) {
+      }}
+        <li>{{=ngs[ngs_i].get("title")}}</li>
+      {{
+      }
+      }}
       </ul>
     </div>
     <div class="clear-both">&nbsp;</div>
