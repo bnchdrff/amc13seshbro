@@ -4,7 +4,7 @@
 <script type="text/x-dot-template" id="seshbro-tpl-categories">
   {{##def.checkbox:
     <li>
-      <input type="checkbox" value="{{=the.get("tid")}}" id="term-{{=the.get("tid")}}" />
+      <input type="checkbox" value="{{=the.get("tid")}}" id="term-{{=the.get("tid")}}" class="tid" />
       <label for="term-{{=the.get("tid")}}">
         {{=the.get("name")}}{{? the.get("imgurl") }}<span class="track-icon" style="background-image:url(/{{=Drupal.settings.pathToFiles}}{{=the.get("imgurl")}});">&nbsp;</span>{{?}}
       </label>
@@ -12,7 +12,7 @@
   #}}
   {{##def.blockcheckbox:
     <li data-parent-tid="{{=the.get("parents")[0]}}">
-      <input type="checkbox" value="{{=the.get("tid")}}" id="term-{{=the.get("tid")}}" />
+      <input type="checkbox" value="{{=the.get("tid")}}" id="term-{{=the.get("tid")}}" class="tid" />
       <label for="term-{{=the.get("tid")}}">
         {{=the.get("name")}}
       </label>
@@ -28,8 +28,9 @@
   <div class="categories t_ps_ng">
     <a href="#" class="expandocat">Content</a>
     <div class="category t">
-      <h3>Tracks</h3>
       <ul>
+        <li><input type="checkbox" value="checkgroup-t" id="checkgroup-t" class="checkgroup" />
+        <label for="checkgroup-t"><h3>Tracks</h3></label>
         {{ for (var tid in it.t_ps_ng.t) { }}
           {{ var the = it.t_ps_ng.t[tid]; }}
           {{#def.checkbox}}
@@ -37,8 +38,9 @@
       </ul>
     </div>
     <div class="category ps">
-      <h3>Practice Spaces</h3>
       <ul>
+        <li><input type="checkbox" value="checkgroup-ps" id="checkgroup-ps" class="checkgroup" />
+        <label for="checkgroup-ps"><h3>Practice Spaces</h3></label>
         {{ for (var tid in it.t_ps_ng.ps) { }}
           {{ var the = it.t_ps_ng.ps[tid]; }}
           {{#def.checkbox}}
@@ -71,15 +73,20 @@
   <div class="categories daytime">
     <a href="#" class="expandocat">Day/Time</a>
     <div class="category thursday">
-      <h3>Ongoing</h3>
       <ul>
         {{ for (var tid in it.blocks.ongoing) { }}
           {{ var the = it.blocks.ongoing[tid]; }}
-          {{#def.blockcheckbox}}
+          <li data-parent-tid="{{=the.get("parents")[0]}}">
+            <input type="checkbox" value="{{=the.get("tid")}}" id="term-{{=the.get("tid")}}" />
+            <label for="term-{{=the.get("tid")}}">
+              <h3>{{=the.get("name")}}</h3>
+            </label>
+          </li>
         {{ } }}
       </ul>
-      <h3>Thursday</h3>
       <ul>
+        <li><input type="checkbox" value="checkgroup-thursday" id="checkgroup-thursday" class="checkgroup" />
+        <label for="checkgroup-thursday"><h3>Thursday</h3></label>
         {{ for (var tid in it.blocks.thursday) { }}
           {{ var the = it.blocks.thursday[tid]; }}
           {{#def.blockcheckbox}}
@@ -87,8 +94,9 @@
       </ul>
     </div>
     <div class="category friday">
-      <h3>Friday</h3>
       <ul>
+        <li><input type="checkbox" value="checkgroup-friday" id="checkgroup-friday" class="checkgroup" />
+        <label for="checkgroup-friday"><h3>Friday</h3></label>
         {{ for (var tid in it.blocks.friday) { }}
           {{ var the = it.blocks.friday[tid]; }}
           {{#def.blockcheckbox}}
@@ -96,8 +104,9 @@
       </ul>
     </div>
     <div class="category saturday">
-      <h3>Saturday</h3>
       <ul>
+        <li><input type="checkbox" value="checkgroup-saturday" id="checkgroup-saturday" class="checkgroup" />
+        <label for="checkgroup-saturday"><h3>Saturday</h3></label>
         {{ for (var tid in it.blocks.saturday) { }}
           {{ var the = it.blocks.saturday[tid]; }}
           {{#def.blockcheckbox}}
@@ -105,8 +114,9 @@
       </ul>
     </div>
     <div class="category sunday">
-      <h3>Sunday</h3>
       <ul>
+        <li><input type="checkbox" value="checkgroup-sunday" id="checkgroup-sunday" class="checkgroup" />
+        <label for="checkgroup-sunday"><h3>Sunday</h3></label>
         {{ for (var tid in it.blocks.sunday) { }}
           {{ var the = it.blocks.sunday[tid]; }}
           {{#def.blockcheckbox}}

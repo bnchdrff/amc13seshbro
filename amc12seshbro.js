@@ -235,10 +235,11 @@ Seshbro.Views.SessionBrowser = Backbone.View.extend({
   // we'll put all our events here because so many of the session view
   // events require the categories to have been built
   events : {
-    "change input[type=checkbox]" : "select_track",
+    "change input.tid" : "select_track",
     "click #select-none" : "select_none",
     "click .expandocat" : "expandocat",
-    "click .expandosesh" : "expandosesh"
+    "click .expandosesh" : "expandosesh",
+    "change input.checkgroup" : "checkgroup"
   },
   initialize : function() {
     this.categoriesView = new Seshbro.Views.Categories();
@@ -281,6 +282,14 @@ Seshbro.Views.SessionBrowser = Backbone.View.extend({
   expandosesh : function ( e ) {
     e.preventDefault();
     $( e.currentTarget ).parent().parent().toggleClass("expandoed");
+  },
+  checkgroup : function ( e ) {
+    var this_cats_coll = this.categoriesView.collection;
+    var this_state = $( e.currentTarget ).prop( "checked" );
+    _.each( $(e.currentTarget).parent().parent().find('input.tid'), function ( el ) {
+      $(el).prop("checked", this_state);
+      this_cats_coll.get( $(el).val() ).set({ selected : this_state });
+    });
   }
 });
 

@@ -6,11 +6,23 @@
 
 #select-none {
   float: right;
+  display: inline-block;
+  padding: 3px;
+  border: 1px solid #b5b5b5;
+  background: #eaeff0;
+  color: black;
+  margin-top: -15px;
+  padding-bottom: 0;
 }
 
 .expandocat,
 .category h3 {
   padding-left: 14px;
+}
+
+.t_ps_ng .category h3,
+.daytime .category h3 {
+  padding-left: 0;
 }
 
 .expandocat {
@@ -208,11 +220,18 @@
   display: none; /* bio */
 }
 
+.session .presenters h5 {
+  font-size: 13px;
+  text-transform: uppercase;
+  color: #4f4f4f;
+}
+
 .track-icon {
+  display: inline-block;
+  margin-left: 4px;
   width: 17px;
   height: 17px;
   background-position: 0 0;
-  display: inline-block;
 }
 
 .category li:hover .track-icon {
