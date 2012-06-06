@@ -75,6 +75,10 @@
   width: 49%;
 }
 
+.category ul.ongoing { /* special ongoing */
+  margin-bottom: 14px;
+}
+
 .category input {
   margin: 0;
   padding: 0;
@@ -90,6 +94,7 @@
   padding-right: 14px;
   margin-top: -18px;
   margin-bottom: 4px;
+  cursor: pointer;
 }
 
 .category ul,
@@ -190,6 +195,10 @@
   float: right;
 }
 
+.session .schedblock {
+  font-family: TitilliumText22LBold;
+}
+
 .session .short,
 .session .presenters {
   display: none;
@@ -252,6 +261,14 @@
 
 .track-gutter div:hover {
   background-position: 0 18px;
+}
+
+.noflagsesh {
+  float: right;
+  display: inline-block;
+  width: 12px;
+  height: 11px;
+  background: transparent url(../images/HEART_SPRITE.png) no-repeat 0 0;
 }
 
 .flagsesh {

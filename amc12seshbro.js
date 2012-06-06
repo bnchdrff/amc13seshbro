@@ -264,9 +264,7 @@ Seshbro.Views.SessionBrowser = Backbone.View.extend({
   },
   select_none : function ( e ) {
     e.preventDefault();
-    app.router.navigate("");
-    this.categoriesView.collection.reset();
-    this.categoriesView.collection.fetch();
+    app.router.navigate("tids[]", {trigger: true});
   },
   expandocat : function ( e ) {
     e.preventDefault();

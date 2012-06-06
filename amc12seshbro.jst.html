@@ -21,12 +21,12 @@
   {{##def.controls:
     <div class="controls">
       Filter by
-      <a href="#" id="select-none">View all sessions</a>
+      <a href="#" title="Click to reset" id="select-none">View all sessions</a>
     </div>
   #}}
   {{##def.categories:
   <div class="categories t_ps_ng">
-    <a href="#" class="expandocat">Content</a>
+    <a href="#" title="Click to expand or collapse this section" class="expandocat">Content</a>
     <div class="category t">
       <ul>
         <li><input type="checkbox" value="checkgroup-t" id="checkgroup-t" class="checkgroup" />
@@ -59,7 +59,7 @@
     <div class="clear-both">&nbsp;</div>
   </div>
   <div class="categories locations">
-    <a href="#" class="expandocat">Place</a>
+    <a href="#" title="Click to expand or collapse this section" class="expandocat">Place</a>
     <div class="category location">
       <ul>
         {{ for (var tid in it.locations) { }}
@@ -71,9 +71,9 @@
     <div class="clear-both">&nbsp;</div>
   </div>
   <div class="categories daytime">
-    <a href="#" class="expandocat">Day/Time</a>
+    <a href="#" title="Click to expand or collapse this section" class="expandocat">Day/Time</a>
     <div class="category thursday">
-      <ul>
+      <ul class="ongoing">
         {{ for (var tid in it.blocks.ongoing) { }}
           {{ var the = it.blocks.ongoing[tid]; }}
           <li data-parent-tid="{{=the.get("parents")[0]}}">
@@ -153,6 +153,8 @@ for (tid in sesh.taxonomy ) {
             <div class="flagsesh">
               {{=app.seshbro.sessionsView.flagColl.get(sesh.nid).get('bkmklink')}}
             </div>
+          {{??}}
+            <div title="Log in to bookmark sessions" class="noflagsesh">&nbsp;</div>
           {{?}}
           {{? sesh.field_2012tweetable[0] }}
             <p class="tweetable">
@@ -193,12 +195,6 @@ for (tid in sesh.taxonomy ) {
           <span class="location">
             {{
             var term = app.seshbro.categoriesView.collection.get(sesh.field_2012loc[0].value);
-            }}
-            {{? term !== undefined }}{{=term.get("name")}}{{?}}
-          </span>
-          <span class="explev">
-            {{
-            var term = app.seshbro.categoriesView.collection.get(sesh.field_2012explev[0].value);
             }}
             {{? term !== undefined }}{{=term.get("name")}}{{?}}
           </span> |

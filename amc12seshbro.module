@@ -6,7 +6,7 @@
 function amc12seshbro_menu() {
   $items = array();
   $items['amc2012/sessions'] = array(
-    'title' => "Conference Schedule",
+    'title' => "AMC2012 Conference Schedule",
     'page callback' => 'amc12seshbro_page',
     'access arguments' => array('access content'),
     'type' => MENU_NORMAL_ITEM,
