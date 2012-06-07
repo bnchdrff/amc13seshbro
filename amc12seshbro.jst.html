@@ -29,7 +29,7 @@
   #}}
   {{##def.categories:
   <div class="categories t_ps_ng">
-    <a href="#" title="Click to expand or collapse this section" class="expandocat">Content</a>
+    <a href="#" title="Click to expand or collapse this section" class="expandocat">Filter by Content</a>
     <div class="category t">
       <ul>
         <li><input type="checkbox" value="checkgroup-t" id="checkgroup-t" class="checkgroup" />
@@ -43,7 +43,7 @@
     <div class="category ps">
       <ul>
         <li><input type="checkbox" value="checkgroup-ps" id="checkgroup-ps" class="checkgroup" />
-        <label for="checkgroup-ps"><h3>Practice Spaces</h3></label>
+        <label for="checkgroup-ps"><h3>Filter by Practice Spaces</h3></label>
         {{ for (var tid in it.t_ps_ng.ps) { }}
           {{ var the = it.t_ps_ng.ps[tid]; }}
           {{#def.checkbox}}
@@ -53,7 +53,7 @@
     <div class="category ng">
       {{ for (var tid in it.t_ps_ng.ng) { }}
         {{ var the = it.t_ps_ng.ng[tid]; }}
-          <input type="checkbox" value="{{=the.get("tid")}}" id="term-{{=the.get("tid")}}" />
+          <input type="checkbox" value="{{=the.get("tid")}}" id="term-{{=the.get("tid")}}" class="tid" />
           <label for="term-{{=the.get("tid")}}">
             <h3>Network Gatherings{{? the.get("imgurl") }}<span class="track-icon" style="background-image:url(/{{=Drupal.settings.pathToFiles}}{{=the.get("imgurl")}});">&nbsp;</span>{{?}}</h3>
           </label>
@@ -62,7 +62,7 @@
     <div class="clear-both">&nbsp;</div>
   </div>
   <div class="categories locations">
-    <a href="#" title="Click to expand or collapse this section" class="expandocat">Place</a>
+    <a href="#" title="Click to expand or collapse this section" class="expandocat">Filter by Place</a>
     <div class="category location">
       <ul>
         {{ for (var tid in it.locations) { }}
@@ -74,7 +74,7 @@
     <div class="clear-both">&nbsp;</div>
   </div>
   <div class="categories daytime">
-    <a href="#" title="Click to expand or collapse this section" class="expandocat">Day/Time</a>
+    <a href="#" title="Click to expand or collapse this section" class="expandocat">Filter by Day/Time</a>
     <div class="category thursday">
       <ul class="ongoing">
         {{ for (var tid in it.blocks.ongoing) { }}

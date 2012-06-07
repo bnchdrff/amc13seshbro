@@ -267,7 +267,6 @@ Seshbro.Views.Sessions = Backbone.View.extend({
       }
     }
     if ( this.flagColl && app.seshbro.considerBkmks === true ) {
-      console.log('considering bookmarks');
       var flagged_seshes = [];
       _.each(app.seshbro.sessionsView.flagColl.where({ flagStatus : "flagged" }), function(mod) { flagged_seshes.push(mod.id); });
       // this whole multiple-collections thing is pretty inefficient :(
@@ -276,7 +275,6 @@ Seshbro.Views.Sessions = Backbone.View.extend({
       });
       sesh_groups_or_res.bkmks = flagged_sesh_coll;
     } else {
-      console.log('NOT considering bookmarks');
       var flagged_seshes = [];
       sesh_groups_or_res.bkmks = seshes;
     }
@@ -286,8 +284,6 @@ Seshbro.Views.Sessions = Backbone.View.extend({
       sesh_groups_or_res.blocks,
       sesh_groups_or_res.bkmks
     );
-    console.log(sesh_groups_or_res);
-    console.log(sesh_groups_intersection);
     this.render_filter( sesh_groups_intersection );
   },
   render_filter : function( collection ) {
