@@ -15,13 +15,18 @@ Seshbro.Router = Backbone.Router.extend({
   initialize : function() {
     this.route( "", "tidize" );
     this.route( /^tids\[(.*?)\]$/, "tidize" );
+    this.route( /^(?!tids.*)/, "tidize" );
   },
   tidize : function( tids ) {
     var this_router = this;
     // browse sessions
     app.seshbro = new Seshbro.Views.SessionBrowser();
-    var loadthings = function() { this_router.load_from_tids( tids ); };
-    app.seshbro.sessionsView.collection.bind( "reset", loadthings );
+    if ( tids ) {
+      var dothings = function() { this_router.load_from_tids( tids ); };
+    } else {
+      var dothings = function() {  };
+    }
+    app.seshbro.sessionsView.collection.bind( "reset", dothings );
     app.seshbro.render();
   },
   load_from_tids : function( tids ) {
@@ -32,7 +37,11 @@ Seshbro.Router = Backbone.Router.extend({
         app.seshbro.categoriesView.collection.get(tid).set({ selected : true });
         $( "#term-" + tid ).prop({ checked: true });
       });
-      $( '#categories input' ).parent().styleForm()
+      $( '#categories input' ).parent().styleForm();
+      _.each( $( ".categories"), function( cat ) {
+        $par = $(cat);
+        $par.prepend( "<div class='cat-teaser'>" + app.seshbro.categoriesView.get_nuisance_of_cats( $par ) + "</div>" );
+      });
     }
   }
 });
@@ -149,14 +158,15 @@ Seshbro.Views.Categories = Backbone.View.extend({
     };
     $( "#categories" ).html( this.template( categories ) );
     this.setElement( $( "#categories" ) );
-    $( 'input', this.$el ).parent().styleForm()
+    $( "input", this.$el ).parent().styleForm()
     return this;
   },
   events : {
     "change input.tid" : "select_track",
     "click #select-none" : "select_none",
-    "click .expandocat" : "expandocat",
-    "change input.checkgroup" : "checkgroup"
+    "click .expandocat" : "adjust_cat_eyes_for_available_light",
+    "change input.checkgroup" : "checkgroup",
+    "change input#toggle-flagged" : "toggle_flagged"
   },
   select_track : function( e ) {
     // store selected state as a property right smack dab in the middle of the category model
@@ -166,25 +176,40 @@ Seshbro.Views.Categories = Backbone.View.extend({
   },
   select_none : function ( e ) {
     e.preventDefault();
-    app.router.navigate("tids[]", {trigger: true});
+    app.router.navigate( "tids[]", { trigger : true } );
   },
-  expandocat : function ( e ) {
+  adjust_cat_eyes_for_available_light : function ( e ) {
     e.preventDefault();
-    $( e.currentTarget ).siblings().toggle();
-    var $par = $( e.currentTarget ).parent()
-    $par.toggleClass( "collapsoed" );
-    if ( $( '.cat-teaser', $par ).length > 0 ) {
-      $( '.cat-teaser', $par ).remove();
+    var $cat = $( e.currentTarget );
+    var $par = $cat.parent();
+    if ( $par.hasClass( "dilated" ) ) {
+      this.contract_cat( $cat, $par );
     } else {
-      $par.prepend( "<div class='cat-teaser'>" + $( '.cchecked', $par ).siblings().text() + "</div>" );
+      this.dilate_cat( $cat, $par );
     }
+  },
+  dilate_cat : function ( $cat, $par ) {
+    $par.addClass( "dilated" );
+    $( ".cat-teaser", $par ).remove();
+  },
+  contract_cat : function ( $cat, $par ) {
+    $par.removeClass( "dilated" );
+    $par.prepend( "<div class='cat-teaser'>" + this.get_nuisance_of_cats( $par ) + "</div>" );
+  },
+  get_nuisance_of_cats : function ( $par ) {
+    return $( ".cchecked", $par ).siblings().text();
   },
   checkgroup : function ( e ) {
     var this_state = $( e.currentTarget ).prop( "checked" );
-    _.each( $(e.currentTarget).parent().parent().find('input.tid'), function ( el ) {
-      $(el).prop("checked", this_state);
-      this.collection.get( $(el).val() ).set({ selected : this_state });
+    var this_coll = this.collection;
+    _.each( $( e.currentTarget ).parent().parent().find( "input.tid" ), function ( el ) {
+      $( el ).prop( "checked", this_state );
+      this_coll.get( $( el ).val() ).set({ selected : this_state });
     });
+  },
+  toggle_flagged : function ( e ) {
+    app.seshbro.considerBkmks = $( e.currentTarget ).prop( "checked" );
+    app.seshbro.sessionsView.filter( app.seshbro.categoriesView.collection );
   }
 });
 
@@ -193,7 +218,7 @@ Seshbro.Views.Sessions = Backbone.View.extend({
     _.bindAll( this, "render" );
     this.collection = new Seshbro.Collections.Sessions();
     // is user?
-    if ( $('#container' ).hasClass('logged-in') ) {
+    if ( $( "#container" ).hasClass( "logged-in" ) ) {
       this.flagColl = new Seshbro.Collections.Seshflags();
       this.flagColl.fetch();
     }
@@ -216,17 +241,18 @@ Seshbro.Views.Sessions = Backbone.View.extend({
     var sesh_groups_or_res = {
       t_ps_ng : [],
       locations : [],
-      blocks : []
+      blocks : [],
+      bkmks : []
     };
     var sesh_groups_intersection = [];
-    var groups = {
+    var cat_groups = {
       t_ps_ng : catsColl.where({ vid : "10", selected: true }),
       locations : catsColl.where({ vid : "16", selected: true }),
       blocks : catsColl.where({ vid : "15", selected: true })
     };
-    for ( var group in groups ) {
+    for ( var group in cat_groups ) {
       _.each (
-        groups[group],
+        cat_groups[group],
         function ( term ) {
           var filtered = _.filter( seshes, function( sesh ) {
             return sesh.get("taxonomy").hasOwnProperty(term.get("tid")) === true;
@@ -240,11 +266,28 @@ Seshbro.Views.Sessions = Backbone.View.extend({
         sesh_groups_or_res[group] = seshes;
       }
     }
+    if ( this.flagColl && app.seshbro.considerBkmks === true ) {
+      console.log('considering bookmarks');
+      var flagged_seshes = [];
+      _.each(app.seshbro.sessionsView.flagColl.where({ flagStatus : "flagged" }), function(mod) { flagged_seshes.push(mod.id); });
+      // this whole multiple-collections thing is pretty inefficient :(
+      var flagged_sesh_coll = _.filter( seshes, function ( sesh ) {
+        return _.include( flagged_seshes, sesh.get("nid") );
+      });
+      sesh_groups_or_res.bkmks = flagged_sesh_coll;
+    } else {
+      console.log('NOT considering bookmarks');
+      var flagged_seshes = [];
+      sesh_groups_or_res.bkmks = seshes;
+    }
     sesh_groups_intersection = _.intersection(
       sesh_groups_or_res.t_ps_ng,
       sesh_groups_or_res.locations,
-      sesh_groups_or_res.blocks
+      sesh_groups_or_res.blocks,
+      sesh_groups_or_res.bkmks
     );
+    console.log(sesh_groups_or_res);
+    console.log(sesh_groups_intersection);
     this.render_filter( sesh_groups_intersection );
   },
   render_filter : function( collection ) {

@@ -26,5 +26,10 @@
   filter: alpha(opacity=50); /* IE */
 }
 
+.flag-throbber {
+  display: none;
+}
+
 .flag-waiting .flag-throbber {
 }
+

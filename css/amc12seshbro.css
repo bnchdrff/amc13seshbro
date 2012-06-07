@@ -1,11 +1,11 @@
 .controls {
+  text-align: right;
   text-transform: uppercase;
   background: white;
   border-bottom: 1px solid #b5b5b5;
 }
 
 #select-none {
-  float: right;
   display: inline-block;
   padding: 3px;
   border: 1px solid #b5b5b5;
@@ -15,7 +15,6 @@
   padding-bottom: 0;
 }
 
-.expandocat,
 .category h3 {
   padding-left: 14px;
   position: relative;
@@ -28,19 +27,28 @@
 }
 
 .expandocat {
+  padding: 14px 0;
   text-transform: uppercase;
   display: block;
-  padding-bottom: 7px;
-  background: transparent url(../images/COLLAPSE.png) no-repeat top right;
-}
-
-.collapsoed .expandocat {
-  padding-bottom: 0;
-  background: transparent url(../images/EXPAND.png) no-repeat top right;
+  background: transparent url(../images/EXPAND.png) no-repeat center right;
   z-index: 20;
 }
 
-.collapsoed .cat-teaser {
+.category {
+  height: 0;
+  overflow: hidden;
+}
+
+.dilated .category {
+  height: auto;
+  overflow: visible;
+}
+
+.dilated .expandocat {
+  background: transparent url(../images/COLLAPSE.png) no-repeat center right;
+}
+
+.cat-teaser {
   position: absolute;
   z-index: 3;
   pointer-events: none;
@@ -48,6 +56,7 @@
   width: 800px;
   height: 20px;
   margin-left: 80px;
+  margin-top: 14px;
   overflow: hidden;
 }
 
@@ -68,7 +77,7 @@
 }
 
 .categories {
-  padding: 14px;
+  padding: 0 14px;
   border-bottom: 1px solid #b5b5b5;
 }
 
@@ -272,8 +281,8 @@
 .noflagsesh {
   float: right;
   display: inline-block;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   background: transparent url(../images/HEARTONS.png) no-repeat 0 0;
 }
 
@@ -285,8 +294,8 @@
   display: inline-block;
   overflow: hidden;
   text-indent: -999em;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   background: transparent url(../images/HEARTONS.png) no-repeat 0 0;
 }
 

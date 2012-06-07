@@ -20,7 +20,10 @@
   #}}
   {{##def.controls:
     <div class="controls">
-      Filter by
+      {{? $('#container').hasClass('logged-in') }}
+      <input type="checkbox" value="false" id="toggle-flagged" />
+      <label for="toggle-flagged">Only show my bookmarked sessions</label>
+      {{?}}
       <a href="#" title="Click to reset" id="select-none">View all sessions</a>
     </div>
   #}}
@@ -154,7 +157,7 @@ for (tid in sesh.taxonomy ) {
               {{=app.seshbro.sessionsView.flagColl.get(sesh.nid).get('bkmklink')}}
             </div>
           {{??}}
-            <div title="Log in to bookmark sessions" class="noflagsesh">&nbsp;</div>
+            <a href="#container"><div title="Log in to bookmark sessions" class="noflagsesh">&nbsp;</div></a>
           {{?}}
           {{? sesh.field_2012tweetable[0] }}
             <p class="tweetable">
