@@ -15,7 +15,8 @@ Seshbro.Router = Backbone.Router.extend({
   initialize : function() {
     this.route( "", "tidize" );
     this.route( /^tids\[(.*?)\]$/, "tidize" );
-    this.route( /^(?!tids.*)/, "tidize" );
+    this.route( /^cats=(.*?)$/, "tidize" );
+    this.route( /^(?!...s.*)/, "tidize" );
   },
   tidize : function( tids ) {
     var this_router = this;
@@ -54,7 +55,7 @@ Seshbro.Models.Category = Backbone.Model.extend({
         this.collection.where({ selected : true }),
         function( m ) { return m.get("tid"); }
       );
-      app.router.navigate( "tids[" + stringOfPearls.toString() + "]" );
+      app.router.navigate( "cats=" + stringOfPearls.toString() + "" );
       app.seshbro.sessionsView.filter( app.seshbro.categoriesView.collection );
     });
   }
@@ -176,7 +177,7 @@ Seshbro.Views.Categories = Backbone.View.extend({
   },
   select_none : function ( e ) {
     e.preventDefault();
-    app.router.navigate( "tids[]", { trigger : true } );
+    app.router.navigate( "cats=", { trigger : true } );
   },
   adjust_cat_eyes_for_available_light : function ( e ) {
     e.preventDefault();
@@ -303,11 +304,15 @@ Seshbro.Views.Sessions = Backbone.View.extend({
     Drupal.flagLink($('.seshes', this.$el));
   },
   events : {
-    "click .expandosesh" : "expandosesh"
+    "click .expandosesh" : "expandosesh",
+    "click .noflagsesh" : "noflagsesh"
   },
   expandosesh : function ( e ) {
     e.preventDefault();
     $( e.currentTarget ).parent().parent().toggleClass("expandoed");
+  },
+  noflagsesh : function ( e ) {
+    $('#block-user-0').addClass('makeitobvious');
   }
 });
 
