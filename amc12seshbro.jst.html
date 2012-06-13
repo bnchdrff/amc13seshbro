@@ -179,12 +179,7 @@ for (tid in sesh.taxonomy ) {
                 {{? preses[presesi][0].value.length > 2 }}
                 <div>
                   {{? preses[presesi][3] && preses[presesi][3].uid > 0 }}
-                  <a href="/user/{{=preses[presesi][3].uid}}">{{?}}{{=preses[presesi][0].value}}{{? preses[presesi][3] && preses[presesi][3].uid > 0 }}</a>{{?}}{{? preses[presesi][1].value.length > 2 }}, {{=preses[presesi][1].value}}{{?}}
-                  {{? preses[presesi][2].value.length > 2 }}
-                  <div>
-                    {{=preses[presesi][2].value}}
-                  </div>
-                  {{?}}
+                  <a href="/user/{{=preses[presesi][3].uid}}">{{?}}{{=preses[presesi][0].value.trim()}}{{? preses[presesi][3] && preses[presesi][3].uid > 0 }}</a>{{?}}{{? preses[presesi][1].value.length > 2 }}, {{=preses[presesi][1].value.trim()}}{{?}}
                 </div>
                 {{?}}
               {{ } }}

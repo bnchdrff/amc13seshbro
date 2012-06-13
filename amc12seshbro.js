@@ -335,6 +335,20 @@ $(function() {
     // this point
     app.router = new Seshbro.Router();
     Backbone.history.start({ pushState : false });
+
+    // special sauce
+    $(document.documentElement).keypress(function(e) {
+      if ( event.keyCode === 69 ) {
+        $( '.session' ).each( function() {
+          $(this).addClass( "expandoed" );
+        });
+      }
+      if ( event.keyCode === 101 ) {
+        $( '.session' ).each( function() {
+          $(this).removeClass( "expandoed" );
+        });
+      }
+    })
   });
 });
 
