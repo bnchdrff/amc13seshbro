@@ -1,4 +1,12 @@
 <script type="text/x-dot-template" id="seshbro-tpl-seshbro">
+  <div class="twit-instr">
+    <p>
+      Twitter users may tweet comments to the discussion pages for each
+      session by using the assigned hashtags. In order for your tweets to
+      appear on session discussion pages, you will need to use both of the
+      assigned hashtags in your tweet.
+    </p>
+  </div>
   <div id="categories"></div><div id="seshes"></div>
 </script>
 <script type="text/x-dot-template" id="seshbro-tpl-categories">
@@ -157,7 +165,7 @@ for (tid in sesh.taxonomy ) {
               {{=app.seshbro.sessionsView.flagColl.get(sesh.nid).get('bkmklink')}}
             </div>
           {{??}}
-            <a href="#container" class="noflagsesh" title="Log in to bookmark sessions">&nbsp;</a>
+            <a href="#container" title="Log in to bookmark sessions" class="noflagsesh">&nbsp;</a>
           {{?}}
           {{? sesh.field_2012tweetable[0] }}
             <p class="tweetable">
@@ -185,6 +193,9 @@ for (tid in sesh.taxonomy ) {
               {{ } }}
             </div>
           {{?}}
+          <div class="read-more-button">
+            <a href="http://talk.alliedmedia.org/{{=sesh.path}}">Read More &amp; Discuss</a>
+          </div>
         </div>
         <div class="right">
           <span class="schedblock">

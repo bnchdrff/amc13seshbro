@@ -218,15 +218,33 @@
   padding-right: 21px;
 }
 
+.session .read-more-button,
 .session .short,
 .session .presenters {
   display: none;
+}
+
+.session .read-more-button {
+  margin-top: 15px;
+  padding-top: 20px;
+  border-top: 1px dashed #9A9A9A;
+}
+
+.session .read-more-button a {
+  font: normal 16px/16px 'TitilliumText22LBold';
+  padding: 5px 5px 3px;
+  background-color: #000;
+  color: yellow;
+  margin-top: 10px;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .session.expandoed .tweetable {
   display: none;
 }
 
+.session.expandoed .read-more-button,
 .session.expandoed .short,
 .session.expandoed .presenters {
   display: block;
