@@ -69,6 +69,10 @@ Seshbro.Models.Seshflag = Backbone.Model.extend({
   idAttribute : "nid"
 });
 
+Seshbro.Models.Hashtwitcount = Backbone.Model.extend({
+  idAttribute : "key" // hashtag, sans #
+});
+
 Seshbro.Collections.Categories = Backbone.Collection.extend({
   model : Seshbro.Models.Category,
   url : app.docroot + "/amc2012/sessions/taxonomy-js?callback=?",
@@ -81,6 +85,14 @@ Seshbro.Collections.Categories = Backbone.Collection.extend({
 Seshbro.Collections.Seshflags = Backbone.Collection.extend({
   model : Seshbro.Models.Seshflag,
   url : app.docroot + "/amc2012/sessions/flag-json?callback=?"
+});
+
+Seshbro.Collections.Hashtwitcounts = Backbone.Collection.extend({
+  model : Seshbro.Models.Hashtwitcount,
+  url : "http://talk.alliedmedia.org:5984/dfgleanings/_design/bytag/_view/count_by_tag?reduce=true&group=true&callback=?",
+  parse: function(response) {
+    return response.rows;
+  }
 });
 
 Seshbro.Collections.Sessions = Backbone.Collection.extend({
@@ -223,6 +235,9 @@ Seshbro.Views.Sessions = Backbone.View.extend({
       this.flagColl = new Seshbro.Collections.Seshflags();
       this.flagColl.fetch();
     }
+    // hashtwitcounts
+    this.hashTwitCountColl = new Seshbro.Collections.Hashtwitcounts();
+    this.hashTwitCountColl.fetch();
     this.collection.on( "reset", this.render );
     this.collection.fetch();
   },

@@ -177,6 +177,13 @@ for (tid in sesh.taxonomy ) {
               {{=sesh.field_2012sesh_shortdesc[0].value}}
             </p>
           {{?}}
+          {{?  sesh.field_2012hash[0] && app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2012hash[0].value) }}
+            <div class="counts">
+              {{=app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2012hash[0].value).get('value')}} tweet{{?app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2012hash[0].value).get('value') != 1}}s{{?}}
+              and
+              {{=sesh.comment_count}} comment{{?sesh.comment_count != 1}}s{{?}}
+            </div>
+          {{?}}
           {{? sesh.field_2012sesh_presname[0].value !== null }}
             <div class="presenters">
             <h5>Presenters:</h5>

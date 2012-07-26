@@ -220,7 +220,8 @@
 
 .session .read-more-button,
 .session .short,
-.session .presenters {
+.session .presenters,
+.session .counts {
   display: none;
 }
 
@@ -246,7 +247,8 @@
 
 .session.expandoed .read-more-button,
 .session.expandoed .short,
-.session.expandoed .presenters {
+.session.expandoed .presenters,
+.session.expandoed .counts {
   display: block;
 }
 
