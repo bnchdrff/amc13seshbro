@@ -234,10 +234,13 @@
   font: normal 16px/16px 'TitilliumText22LBold';
   padding: 5px 5px 3px;
   background-color: #000;
-  color: yellow;
+  color: #00FC00;
   margin-top: 10px;
   text-decoration: none;
   cursor: pointer;
+}
+.session .read-more-button a:hover {
+  color: yellow;
 }
 
 .session.expandoed .tweetable {
