@@ -220,12 +220,13 @@
 
 .session .read-more-button,
 .session .short,
-.session .presenters {
+.session .presenters,
+.session .counts {
   display: none;
 }
 
 .session .read-more-button {
-  margin-top: 15px;
+  margin-top: 25px;
   padding-top: 20px;
   border-top: 1px dashed #9A9A9A;
 }
@@ -249,8 +250,13 @@
 
 .session.expandoed .read-more-button,
 .session.expandoed .short,
-.session.expandoed .presenters {
+.session.expandoed .presenters,
+.session.expandoed .counts {
   display: block;
+}
+
+.session.expandoed .counts {
+  float: right;
 }
 
 .session .right {
