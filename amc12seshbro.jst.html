@@ -196,10 +196,10 @@ for (tid in sesh.taxonomy ) {
           {{? sesh.comment_count || sesh.field_2012hash[0] }}
             <div class="counts">
               <a href="http://talk.alliedmedia.org/{{=sesh.path}}#forum-comments">
-              {{? sesh.field_2012hash[0] && app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2012hash[0].value) }}
-                {{=app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2012hash[0].value).get('value')}} tweet{{? app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2012hash[0].value).get('value') != 1 }}s{{?}}
+              {{? sesh.field_2012hash[0] && app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2012hash[0].value.toLowerCase()) }}
+                {{=app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2012hash[0].value.toLowerCase()).get('value')}} tweet{{? app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2012hash[0].value.toLowerCase()).get('value') != 1 }}s{{?}}
               {{?}}
-              {{? sesh.comment_count && ( sesh.field_2012hash[0] && app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2012hash[0].value) ) }}
+              {{? sesh.comment_count && ( sesh.field_2012hash[0] && app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2012hash[0].value.toLowerCase()) ) }}
                 /
               {{?}}
               {{? sesh.comment_count }}
