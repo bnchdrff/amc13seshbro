@@ -239,6 +239,9 @@ Seshbro.Views.Sessions = Backbone.View.extend({
       this.flagColl.fetch();
     }
     */
+    // hashtwitcounts
+    this.hashTwitCountColl = new Seshbro.Collections.Hashtwitcounts();
+    this.hashTwitCountColl.fetch();
     this.collection.on( "reset", this.render );
     var that = this;
     $.when( this.hashTwitCountColl.fetch() ).then( function() {
