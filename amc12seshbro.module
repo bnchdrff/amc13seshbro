@@ -21,13 +21,13 @@ function amc12seshbro_menu() {
 function amc12seshbro_page() {
   // flag bits
   drupal_add_css(drupal_get_path('module', 'amc12seshbro') . '/css/flag.css');
-  drupal_add_js(drupal_get_path('module', 'amc12seshbro') . '/flag.js');
+  drupal_add_js(drupal_get_path('module', 'amc12seshbro') . '/flag.js', 'footer');
   // our bits
-  drupal_add_js(drupal_get_path('module', 'amc12seshbro')."/lib/json2.js");
-  drupal_add_js(drupal_get_path('module', 'amc12seshbro')."/lib/backbone.js");
-  drupal_add_js(drupal_get_path('module', 'amc12seshbro')."/lib/doT/doT.min.js");
-  drupal_add_js(drupal_get_path('module', 'amc12seshbro')."/lib/jquery.styleform.js");
-  drupal_add_js(drupal_get_path('module', 'amc12seshbro')."/amc12seshbro.js");
+  drupal_add_js(drupal_get_path('module', 'amc12seshbro')."/lib/json2.js", 'footer');
+  drupal_add_js(drupal_get_path('module', 'amc12seshbro')."/lib/backbone.js", 'footer');
+  drupal_add_js(drupal_get_path('module', 'amc12seshbro')."/lib/doT/doT.min.js", 'footer');
+  drupal_add_js(drupal_get_path('module', 'amc12seshbro')."/lib/jquery.styleform.js", 'footer');
+  drupal_add_js(drupal_get_path('module', 'amc12seshbro')."/amc12seshbro.js", 'footer');
   drupal_add_css(drupal_get_path('module', 'amc12seshbro')."/css/styleform.css");
   drupal_add_css(drupal_get_path('module', 'amc12seshbro')."/css/amc12seshbro.css");
 
