@@ -1,5 +1,5 @@
 core = "6.x"
-dependencies[] = "services"
+#dependencies[] = "services"
 description = "AMC2012 seshbro, dude."
 name = "AMC2012 Session Browser"
 package = "Thermitic"
