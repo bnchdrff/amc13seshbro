@@ -1,8 +1,6 @@
 <script type="text/x-dot-template" id="seshbro-tpl-seshbro">
   <div class="twit-instr">
     <p><strong>
-    Below you can browse sessions from the last Allied Media Conference,
-    which was held June 28 - July 1, 2013 in Detroit, MI.
     The next AMC is June 20 - 23, 2013.
     Learn more about the AMC here: <a href="http://amc.alliedmedia.org/">amc.alliedmedia.org</a>
     </strong></p>
@@ -172,9 +170,9 @@ for (tid in sesh.taxonomy ) {
               {{=sesh.field_2013tweetable[0].value}}
             </p>
           {{?}}
-          {{? sesh.field_2013sesh_shortdesc[0] }}
+          {{? sesh.field_2013sesh_short_desc[0] }}
             <p class="short">
-              {{=sesh.field_2013sesh_shortdesc[0].value}}
+              {{=sesh.field_2013sesh_short_desc[0].value}}
             </p>
           {{?}}
           {{?  sesh.field_2013hash[0] && app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2013hash[0].value) }}
@@ -184,11 +182,11 @@ for (tid in sesh.taxonomy ) {
               {{=sesh.comment_count}} comment{{?sesh.comment_count != 1}}s{{?}}
             </div>
           {{?}}
-          {{? sesh.field_2013sesh_presname[0].value !== null }}
+          {{? sesh.field_2013presenter_1_name[0].value !== null }}
             <div class="presenters">
             <h5>Presenters:</h5>
               {{
-              var preses = _.zip( sesh.field_2013sesh_presname, sesh.field_2013sesh_presorg, sesh.field_2013sesh_presbio, sesh.field_2013sesh_prestalk );
+              var preses = _.zip( sesh.field_2013presenter_1_name, sesh.field_2013presenter_1_orgs, sesh.field_2013presenter_1_bio, sesh.field_2013presenter_1_user );
               for ( var presesi = 0, presesl = preses.length; presesi < preses.length; presesi++ ) {
               }}
                 {{? preses[presesi][0].value.length > 2 }}

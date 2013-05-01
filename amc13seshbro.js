@@ -111,7 +111,7 @@ Seshbro.Collections.Sessions = Backbone.Collection.extend({
   comparator : function ( sesh ) {
     if ( sesh.get("field_2013sched")[0].value > 0 ) {
       var term = app.seshbro.categoriesView.collection.get( sesh.get("field_2013sched")[0].value );
-      if ( 514 == term.get("tid") ) {
+      if ( 642 == term.get("tid") ) {
         return -9000 + sesh.get("nid") * .1;
       } else {
         var p_term = app.seshbro.categoriesView.collection.get( term.get("parents")[0] );
@@ -134,40 +134,40 @@ Seshbro.Views.Categories = Backbone.View.extend({
   id : "categories",
   template : doT.template( $( "#seshbro-tpl-categories" ).html() ),
   render : function() {
-    var allblocks = this.collection.where({ vid : "15" });
+    var allblocks = this.collection.where({ vid : "21" });
     var blocks = {
       ongoing : _.filter( allblocks, function( model ) {
-        return model.get("tid") == "514";
+        return model.get("tid") == "642";
       }),
       thursday : _.filter( allblocks, function( model ) {
-        return model.get("parents")[0] == 427;
+        return model.get("parents")[0] == 643;
       }),
       friday : _.filter( allblocks, function( model ) {
-        return model.get("parents")[0] == 432;
+        return model.get("parents")[0] == 644;
       }),
       saturday : _.filter( allblocks, function( model ) {
-        return model.get("parents")[0] == 443;
+        return model.get("parents")[0] == 645;
       }),
       sunday : _.filter( allblocks, function( model ) {
-        return model.get("parents")[0] == 453;
+        return model.get("parents")[0] == 646;
       })
     };
-    var allt_ps_ng = this.collection.where({ vid : "10" });
+    var allt_ps_ng = this.collection.where({ vid : "17" });
     var t_ps_ng = {
       t : _.filter( allt_ps_ng, function( model ) {
-        return model.get("parents")[0] == 517;
+        return model.get("parents")[0] == 538;
       }),
       ps : _.filter( allt_ps_ng, function ( model ) {
-        return model.get("parents")[0] == 518;
+        return model.get("parents")[0] == 537;
       }),
       ng : _.filter( allt_ps_ng, function( model ) {
-        return model.get("tid") == 519;
+        return model.get("tid") == 536;
       })
     };
     var categories = {
       t_ps_ng : t_ps_ng,
       blocks : blocks,
-      locations : this.collection.where({ vid : "16" })
+      locations : this.collection.where({ vid : "22" })
     };
     $( "#categories" ).html( this.template( categories ) );
     this.setElement( $( "#categories" ) );
@@ -269,9 +269,9 @@ Seshbro.Views.Sessions = Backbone.View.extend({
     };
     var sesh_groups_intersection = [];
     var cat_groups = {
-      t_ps_ng : catsColl.where({ vid : "10", selected: true }),
-      locations : catsColl.where({ vid : "16", selected: true }),
-      blocks : catsColl.where({ vid : "15", selected: true })
+      t_ps_ng : catsColl.where({ vid : "17", selected: true }),
+      locations : catsColl.where({ vid : "22", selected: true }),
+      blocks : catsColl.where({ vid : "21", selected: true })
     };
     for ( var group in cat_groups ) {
       _.each (
@@ -318,10 +318,10 @@ Seshbro.Views.Sessions = Backbone.View.extend({
   },
   theme : function() {
     $('.seshes', this.$el).find("li[data-day='0']").first().prepend('<h2>ONGOING</h2>');
-    $('.seshes', this.$el).find("li[data-day='427']").first().prepend('<h2>THURSDAY</h2>');
-    $('.seshes', this.$el).find("li[data-day='432']").first().prepend('<h2>FRIDAY</h2>');
-    $('.seshes', this.$el).find("li[data-day='443']").first().prepend('<h2>SATURDAY</h2>');
-    $('.seshes', this.$el).find("li[data-day='453']").first().prepend('<h2>SUNDAY</h2>');
+    $('.seshes', this.$el).find("li[data-day='643']").first().prepend('<h2>THURSDAY</h2>');
+    $('.seshes', this.$el).find("li[data-day='644']").first().prepend('<h2>FRIDAY</h2>');
+    $('.seshes', this.$el).find("li[data-day='645']").first().prepend('<h2>SATURDAY</h2>');
+    $('.seshes', this.$el).find("li[data-day='646']").first().prepend('<h2>SUNDAY</h2>');
     // add flag link events
     Drupal.flagLink($('.seshes', this.$el));
   },
