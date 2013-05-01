@@ -1,4 +1,4 @@
-// amc12seshbrowser.js
+// amc13seshbrowser.js
 
 window.Seshbro = {
   Models: {},
@@ -75,7 +75,7 @@ Seshbro.Models.Hashtwitcount = Backbone.Model.extend({
 
 Seshbro.Collections.Categories = Backbone.Collection.extend({
   model : Seshbro.Models.Category,
-  url : app.docroot + "/amc2012/sessions/taxonomy-js?callback=?",
+  url : app.docroot + "/amc2013/sessions/taxonomy-js?callback=?",
   comparator : function ( term ) {
     // we display terms by section, so no need for a sophistasorter
     return term.get("weight");
@@ -84,12 +84,12 @@ Seshbro.Collections.Categories = Backbone.Collection.extend({
 
 Seshbro.Collections.Seshflags = Backbone.Collection.extend({
   model : Seshbro.Models.Seshflag,
-  url : app.docroot + "/amc2012/sessions/flag-json?callback=?"
+  url : app.docroot + "/amc2013/sessions/flag-json?callback=?"
 });
 
 Seshbro.Collections.Hashtwitcounts = Backbone.Collection.extend({
   model : Seshbro.Models.Hashtwitcount,
-  url : "http://talk.alliedmedia.org:5984/dfgleanings/_design/bytag/_view/count_by_tag?reduce=true&group=true&callback=?",
+  url : "http://jackpine.theworkdept.com:5984/dfgleanings/_design/bytag/_view/count_by_tag?reduce=true&group=true&callback=?",
   parse : function(response) {
     return response.rows;
   }
@@ -105,12 +105,12 @@ Seshbro.Collections.Sessions = Backbone.Collection.extend({
       // sessions at once.
       return app.docroot + "/backbone/rest/node/" + _.pluck( models, id ) + ".jsonp?callback=?";
     } else {
-      return app.docroot + "/backbone/rest/views/2012sesh_backbone_user.jsonp?callback=?";
+      return app.docroot + "/backbone/rest/views/2013sesh_backbone_user.jsonp?callback=?";
     }
   },
   comparator : function ( sesh ) {
-    if ( sesh.get("field_2012sched")[0].value > 0 ) {
-      var term = app.seshbro.categoriesView.collection.get( sesh.get("field_2012sched")[0].value );
+    if ( sesh.get("field_2013sched")[0].value > 0 ) {
+      var term = app.seshbro.categoriesView.collection.get( sesh.get("field_2013sched")[0].value );
       if ( 514 == term.get("tid") ) {
         return -9000 + sesh.get("nid") * .1;
       } else {
@@ -343,12 +343,12 @@ Seshbro.Views.SessionBrowser = Backbone.View.extend({
     this.categoriesView = new Seshbro.Views.Categories();
     this.sessionsView = new Seshbro.Views.Sessions();
   },
-  id : "amc12seshbro",
+  id : "amc13seshbro",
   template :  doT.template( $( "#seshbro-tpl-seshbro" ).html() ),
   render : function( done ) {
     var view = this;
-    $( "#amc12seshbro" ).html( this.template() );
-    this.setElement( $( "#amc12seshbro" ) );
+    $( "#amc13seshbro" ).html( this.template() );
+    this.setElement( $( "#amc13seshbro" ) );
     if ( _.isFunction ( done ) ) {
       done(view.el);
     }

@@ -2,7 +2,7 @@
   <div class="twit-instr">
     <p><strong>
     Below you can browse sessions from the last Allied Media Conference,
-    which was held June 28 - July 1, 2012 in Detroit, MI.
+    which was held June 28 - July 1, 2013 in Detroit, MI.
     The next AMC is June 20 - 23, 2013.
     Learn more about the AMC here: <a href="http://amc.alliedmedia.org/">amc.alliedmedia.org</a>
     </strong></p>
@@ -144,7 +144,7 @@
   <ul class="seshes">
     {{ for (var i = -1, l = it.seshes.length; ++i < l;) { var sesh = it.seshes[i]; }}
       <li class="session"{{
-        var seshtime = app.seshbro.categoriesView.collection.get( sesh.field_2012sched[0].value );
+        var seshtime = app.seshbro.categoriesView.collection.get( sesh.field_2013sched[0].value );
         }}{{? seshtime && seshtime.get("parents") }} data-day="{{=seshtime.get("parents")[0]}}" data-time="{{=seshtime.get("name")}}"{{?}}>
 <div class="track-gutter">
 {{
@@ -167,28 +167,28 @@ for (tid in sesh.taxonomy ) {
           {{??}}
             <!--<a href="#container" title="Log in to bookmark sessions" class="noflagsesh">&nbsp;</a>-->
           {{?}}
-          {{? sesh.field_2012tweetable[0] }}
+          {{? sesh.field_2013tweetable[0] }}
             <p class="tweetable">
-              {{=sesh.field_2012tweetable[0].value}}
+              {{=sesh.field_2013tweetable[0].value}}
             </p>
           {{?}}
-          {{? sesh.field_2012sesh_shortdesc[0] }}
+          {{? sesh.field_2013sesh_shortdesc[0] }}
             <p class="short">
-              {{=sesh.field_2012sesh_shortdesc[0].value}}
+              {{=sesh.field_2013sesh_shortdesc[0].value}}
             </p>
           {{?}}
-          {{?  sesh.field_2012hash[0] && app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2012hash[0].value) }}
+          {{?  sesh.field_2013hash[0] && app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2013hash[0].value) }}
             <div class="counts">
-              {{=app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2012hash[0].value).get('value')}} tweet{{?app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2012hash[0].value).get('value') != 1}}s{{?}}
+              {{=app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2013hash[0].value).get('value')}} tweet{{?app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2013hash[0].value).get('value') != 1}}s{{?}}
               and
               {{=sesh.comment_count}} comment{{?sesh.comment_count != 1}}s{{?}}
             </div>
           {{?}}
-          {{? sesh.field_2012sesh_presname[0].value !== null }}
+          {{? sesh.field_2013sesh_presname[0].value !== null }}
             <div class="presenters">
             <h5>Presenters:</h5>
               {{
-              var preses = _.zip( sesh.field_2012sesh_presname, sesh.field_2012sesh_presorg, sesh.field_2012sesh_presbio, sesh.field_2012sesh_prestalk );
+              var preses = _.zip( sesh.field_2013sesh_presname, sesh.field_2013sesh_presorg, sesh.field_2013sesh_presbio, sesh.field_2013sesh_prestalk );
               for ( var presesi = 0, presesl = preses.length; presesi < preses.length; presesi++ ) {
               }}
                 {{? preses[presesi][0].value.length > 2 }}
@@ -200,13 +200,13 @@ for (tid in sesh.taxonomy ) {
               {{ } }}
             </div>
           {{?}}
-          {{? sesh.comment_count || sesh.field_2012hash[0] }}
+          {{? sesh.comment_count || sesh.field_2013hash[0] }}
             <div class="counts">
               <a href="http://talk.alliedmedia.org/{{=sesh.path}}#forum-comments">
-              {{? sesh.field_2012hash[0] && app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2012hash[0].value.toLowerCase()) }}
-                {{=app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2012hash[0].value.toLowerCase()).get('value')}} tweet{{? app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2012hash[0].value.toLowerCase()).get('value') != 1 }}s{{?}}
+              {{? sesh.field_2013hash[0] && app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2013hash[0].value.toLowerCase()) }}
+                {{=app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2013hash[0].value.toLowerCase()).get('value')}} tweet{{? app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2013hash[0].value.toLowerCase()).get('value') != 1 }}s{{?}}
               {{?}}
-              {{? sesh.comment_count && ( sesh.field_2012hash[0] && app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2012hash[0].value.toLowerCase()) ) }}
+              {{? sesh.comment_count && ( sesh.field_2013hash[0] && app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2013hash[0].value.toLowerCase()) ) }}
                 /
               {{?}}
               {{? sesh.comment_count }}
@@ -225,19 +225,19 @@ for (tid in sesh.taxonomy ) {
           </span>
           <span class="location">
             {{
-            var term = app.seshbro.categoriesView.collection.get(sesh.field_2012loc[0].value);
+            var term = app.seshbro.categoriesView.collection.get(sesh.field_2013loc[0].value);
             }}
             {{? term !== undefined }}{{=term.get("name")}}{{?}}
           </span>
           <span class="kid">
             {{
-            var term = app.seshbro.categoriesView.collection.get(sesh.field_2012kid[0].value);
+            var term = app.seshbro.categoriesView.collection.get(sesh.field_2013kid[0].value);
             }}
             {{? term !== undefined }}{{=term.get("name")}}{{?}}
           </span> |
-          {{? sesh.field_2012hash[0] }}
+          {{? sesh.field_2013hash[0] }}
             <span class="hash">
-              #AMC2012 #{{=sesh.field_2012hash[0].value}}
+              #AMC2013 #{{=sesh.field_2013hash[0].value}}
             </span>
           {{?}}
         </div>
