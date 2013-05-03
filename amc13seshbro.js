@@ -89,7 +89,7 @@ Seshbro.Collections.Seshflags = Backbone.Collection.extend({
 
 Seshbro.Collections.Hashtwitcounts = Backbone.Collection.extend({
   model : Seshbro.Models.Hashtwitcount,
-  url : "http://jackpine.theworkdept.com:5984/dfgleanings/_design/bytag/_view/count_by_tag?reduce=true&group=true&callback=?",
+  url : "//couch.alliedmedia.org/dfgleanings/_design/bytag/_view/count_by_tag?reduce=true&group=true&callback=?",
   parse : function(response) {
     return response.rows;
   }

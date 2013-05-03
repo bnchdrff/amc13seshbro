@@ -182,21 +182,23 @@ for (tid in sesh.taxonomy ) {
               {{=sesh.comment_count}} comment{{?sesh.comment_count != 1}}s{{?}}
             </div>
           {{?}}
-          {{? sesh.field_2013presenter_1_name[0].value !== null }}
-            <div class="presenters">
-            <h5>Presenters:</h5>
-              {{
-              var preses = _.zip( sesh.field_2013presenter_1_name, sesh.field_2013presenter_1_orgs, sesh.field_2013presenter_1_bio, sesh.field_2013presenter_1_user );
-              for ( var presesi = 0, presesl = preses.length; presesi < preses.length; presesi++ ) {
-              }}
-                {{? preses[presesi][0].value.length > 2 }}
-                <div>
-                  {{? preses[presesi][3] && preses[presesi][3].uid > 0 }}
-                  <a href="/user/{{=preses[presesi][3].uid}}">{{?}}{{=preses[presesi][0].value.trim()}}{{? preses[presesi][3] && preses[presesi][3].uid > 0 }}</a>{{?}}{{? preses[presesi][1].value.length > 2 }}, {{=preses[presesi][1].value.trim()}}{{?}}
-                </div>
-                {{?}}
-              {{ } }}
-            </div>
+          {{? typeof sesh.field_2013presenter_1_name !== 'undefined' }}
+            {{? sesh.field_2013presenter_1_name[0].value !== null }}
+              <div class="presenters">
+              <h5>Presenters:</h5>
+                {{
+                var preses = _.zip( sesh.field_2013presenter_1_name, sesh.field_2013presenter_1_orgs, sesh.field_2013presenter_1_bio, sesh.field_2013sesh_presenter_user );
+                for ( var presesi = 0, presesl = preses.length; presesi < preses.length; presesi++ ) {
+                }}
+                  {{? preses[presesi][0] && preses[presesi][0].value && preses[presesi][0].value.length > 2 }}
+                  <div>
+                    {{? preses[presesi][3] && preses[presesi][3].uid > 0 }}
+                    <a href="/user/{{=preses[presesi][3].uid}}">{{?}}{{=preses[presesi][0].value.trim()}}{{? preses[presesi][3] && preses[presesi][3].uid > 0 }}</a>{{?}}{{? preses[presesi][1] && preses[presesi][1].value && preses[presesi][1].value.length > 2 }}, {{=preses[presesi][1].value.trim()}}{{?}}
+                  </div>
+                  {{?}}
+                {{ } }}
+              </div>
+            {{?}}
           {{?}}
           {{? sesh.comment_count || sesh.field_2013hash[0] }}
             <div class="counts">
