@@ -171,7 +171,7 @@ Seshbro.Views.Categories = Backbone.View.extend({
     };
     $( "#categories" ).html( this.template( categories ) );
     this.setElement( $( "#categories" ) );
-    $( "input", this.$el ).parent().styleForm()
+    $( "input", this.$el ).parent().styleForm();
     return this;
   },
   events : {
