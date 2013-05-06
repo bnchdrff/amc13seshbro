@@ -115,8 +115,13 @@ Seshbro.Collections.Sessions = Backbone.Collection.extend({
         return -9000 + sesh.get("nid") * .1;
       } else {
         var p_term = app.seshbro.categoriesView.collection.get( term.get("parents")[0] );
-        var weight = ( ( p_term.get("weight") * 100 ) + term.get("weight") + sesh.get("nid") * .1 );
-        return weight;
+        if (typeof p_term !== "undefined") {
+          var weight = ( ( p_term.get("weight") * 100 ) + term.get("weight") + sesh.get("nid") * .1 );
+          return weight;
+        } else {
+          // network gathering
+          return term.get("weight") * 10;
+        }
       }
     } else {
       return 99999;
