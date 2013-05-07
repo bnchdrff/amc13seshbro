@@ -5,14 +5,14 @@
     Learn more about the AMC here: <a href="http://amc.alliedmedia.org/">amc.alliedmedia.org</a>
     </strong></p>
   </div>
-  <div id="categories"></div><div id="seshes"></div>
+  <div id="categories"></div><div id="seshes"><h1><marquee style="display:inline-block;width:400px">~ ~ ~ ~ Loading ~ ~ ~ ~</marquee></h1></div>
 </script>
 <script type="text/x-dot-template" id="seshbro-tpl-categories">
   {{##def.checkbox:
     <li>
       <input type="checkbox" value="{{=the.get("tid")}}" id="term-{{=the.get("tid")}}" class="tid" />
       <label for="term-{{=the.get("tid")}}">
-        {{=the.get("name")}}{{? the.get("imgurl") }}<span class="track-icon" style="background-image:url(/{{=Drupal.settings.pathToFiles}}{{=the.get("imgurl")}});">&nbsp;</span>{{?}}
+        {{=the.get("name")}}
       </label>
     </li>
   #}}
@@ -61,7 +61,7 @@
         {{ var the = it.t_ps_ng.ng[tid]; }}
           <input type="checkbox" value="{{=the.get("tid")}}" id="term-{{=the.get("tid")}}" class="tid" />
           <label for="term-{{=the.get("tid")}}">
-            <h3>Network Gatherings{{? the.get("imgurl") }}<span class="track-icon" style="background-image:url(/{{=Drupal.settings.pathToFiles}}{{=the.get("imgurl")}});">&nbsp;</span>{{?}}</h3>
+            <h3>Network Gatherings</h3>
           </label>
       {{ } }}
     </div>
@@ -144,18 +144,6 @@
       <li class="session"{{
         var seshtime = app.seshbro.categoriesView.collection.get( sesh.field_2013sched[0].value );
         }}{{? seshtime && seshtime.get("parents") }} data-day="{{=seshtime.get("parents")[0]}}" data-time="{{=seshtime.get("name")}}"{{?}}>
-<div class="track-gutter">
-{{
-for (tid in sesh.taxonomy ) {
-  var url = app.seshbro.categoriesView.collection.get(tid).get('imgurl');
-}}
-{{? url }}
-    <div style="background-image:url(/{{=Drupal.settings.pathToFiles}}{{=url}});" title="{{=app.seshbro.categoriesView.collection.get(tid).get('name')}}">&nbsp;</div>
-{{?}}
-{{
-}
-}}
-</div>
         <div class="left">
           <a href="http://talk.alliedmedia.org/{{=sesh.path}}" class="expandosesh"><h4>{{=sesh.title}}</h4></a>
           {{? app.seshbro.sessionsView.flagColl }}
