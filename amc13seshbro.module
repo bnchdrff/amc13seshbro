@@ -6,7 +6,7 @@
 function amc13seshbro_menu() {
   $items = array();
   $items['amc2013/sessions'] = array(
-    'title' => "AMC2013 Sessions",
+    'title' => "AMC2013",
     'page callback' => 'amc13seshbro_page',
     'access arguments' => array('access content'),
     'type' => MENU_NORMAL_ITEM,

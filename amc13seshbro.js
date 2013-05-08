@@ -238,12 +238,10 @@ Seshbro.Views.Sessions = Backbone.View.extend({
     // hashtwitcounts
     this.hashTwitCountColl = new Seshbro.Collections.Hashtwitcounts();
     // is user?
-    /* NO FLAGS FOR NOW!
     if ( $( "#container" ).hasClass( "logged-in" ) ) {
       this.flagColl = new Seshbro.Collections.Seshflags();
       this.flagColl.fetch();
     }
-    */
     // hashtwitcounts
     this.hashTwitCountColl = new Seshbro.Collections.Hashtwitcounts();
     this.hashTwitCountColl.fetch();
