@@ -227,7 +227,6 @@
 
 .session .read-more-button {
   padding-top: 15px;
-  margin-bottom: -25px;
 }
 
 .session .read-more-button a {
@@ -266,9 +265,12 @@
   color: #4f4f4f;
 }
 
+.session .right span {
+  display: block;
+}
+
 .session .right .schedblock,
 .session .right .location {
-  display: block;
   color: #000;
 }
 
