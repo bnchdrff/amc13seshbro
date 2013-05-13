@@ -157,13 +157,6 @@
               {{=sesh.field_2013sesh_short_desc[0].value}}
             </p>
           {{?}}
-          {{?  sesh.field_2013hash[0] && app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2013hash[0].value) }}
-            <div class="counts">
-              {{=app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2013hash[0].value).get('value')}} tweet{{?app.seshbro.sessionsView.hashTwitCountColl.get(sesh.field_2013hash[0].value).get('value') != 1}}s{{?}}
-              and
-              {{=sesh.comment_count}} comment{{?sesh.comment_count != 1}}s{{?}}
-            </div>
-          {{?}}
           {{? typeof sesh.field_2013presenter_1_name !== 'undefined' }}
             {{? sesh.field_2013presenter_1_name[0].value !== null }}
               <div class="presenters">
