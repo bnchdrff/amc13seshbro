@@ -112,15 +112,19 @@ Seshbro.Collections.Sessions = Backbone.Collection.extend({
     if ( sesh.get("field_2013sched")[0].value > 0 ) {
       var term = app.seshbro.categoriesView.collection.get( sesh.get("field_2013sched")[0].value );
       if ( 642 == term.get("tid") ) {
-        return -9000 + sesh.get("nid") * .1;
+        return -9000 + parseInt(sesh.get("nid"), 10) * .1;
       } else {
         var p_term = app.seshbro.categoriesView.collection.get( term.get("parents")[0] );
         if (typeof p_term !== "undefined") {
-          var weight = ( ( p_term.get("weight") * 100 ) + term.get("weight") + sesh.get("nid") * .1 );
+          var weight = (
+                         parseInt( (parseInt(p_term.get("weight"), 10) * 1000 ), 10)
+                       + parseInt( (parseInt(term.get("weight"), 10) * 100 ), 10)
+                       + parseInt( (parseInt(sesh.get("nid"), 10) * .1 ), 10)
+                       );
           return weight;
         } else {
           // network gathering
-          return term.get("weight") * 10;
+          return parseInt(term.get("weight"), 10) * 10;
         }
       }
     } else {
